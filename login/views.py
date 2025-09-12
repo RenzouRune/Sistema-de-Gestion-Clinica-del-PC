@@ -1,5 +1,4 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 
 def login_view(request):
     Usuario = {
@@ -12,8 +11,7 @@ def login_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         if username == Usuario['user'] and password == Usuario['password']:
-            mensaje = '¡Login exitoso!'
-            # Aquí puedes redirigir a otra página si lo deseas
+            return redirect('recepcion')  
         else:
             mensaje = 'Usuario o contraseña incorrectos.'
     return render(request, 'login/login.html', {'mensaje': mensaje})
