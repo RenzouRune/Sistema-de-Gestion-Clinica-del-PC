@@ -1,5 +1,6 @@
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    # Aquí puedes agregar tus rutas específicas de la app
+    path('diagnostico/asignar/', views.asignar, name='asignar_estudiante'),
 ]

@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+
+{% block title %}Asignar Estudiante a Equipo{% endblock %}
+
+{% block content %}
+    <h2>Asignar Estudiante a un Equipo</h2>
+
+    <form method="GET">
+        <label for="estudiante">Estudiante:</label>
+        <select name="estudiante">
+            <option value="" selected>-- Seleccionar Estudiante --</option>
+            {% for estudiante in estudiantes %}
+                <option value="{{ estudiante.nombre }}">{{ estudiante.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="equipo">Equipo:</label>
+        <select name="equipo">
+            <option value="" selected>-- Seleccionar Equipo --</option>
+            {% for equipo in equipos %}
+                <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Asignar</button>
+    </form>
+
+    {% if mensaje %}
+        <p><strong>{{ mensaje }}</strong></p>
+    {% endif %}
+
+    <h3>Asignaciones realizadas:</h3>
+    <table>
+        <tr>
+            <th>Estudiante</th>
+            <th>Equipo</th>
+        </tr>
+        {% for asignacion in asignaciones %}
+            <tr>
+                <td>{{ asignacion.estudiante.nombre }}</td>
+                <td>{{ asignacion.equipo.nombre_equipo }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

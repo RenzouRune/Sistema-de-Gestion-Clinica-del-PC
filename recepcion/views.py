@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 
-# guardar equipos
+
 equipos = []
 
 def recepcion_view(request):
     if not request.session.get('autenticado'):
-        return redirect('/login/')
+        return redirect('')
     mensaje = None
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
