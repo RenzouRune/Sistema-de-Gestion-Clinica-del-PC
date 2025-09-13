@@ -1,11 +1,27 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h2>Detalle del equipo</h2>
-{% if equipo %}
-    <p><strong>Cliente:</strong> {{ equipo.nombre }}</p>
-    <p><strong>Tipo:</strong> {{ equipo.tipo }}</p>
-    <p><strong>Problema:</strong> {{ equipo.problema }}</p>
-{% else %}
-    <p>Equipo no encontrado.</p>
-{% endif %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Detalle del equipo</h2>
+
+                    {% if equipo %}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Cliente:</strong> {{ equipo.nombre }}</li>
+                            <li class="list-group-item"><strong>Tipo:</strong> {{ equipo.tipo }}</li>
+                            <li class="list-group-item"><strong>Problema:</strong> {{ equipo.problema }}</li>
+                        </ul>
+                    {% else %}
+                        <div class="alert alert-warning text-center" role="alert">
+                            Equipo no encontrado.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

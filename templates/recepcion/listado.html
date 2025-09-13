@@ -1,20 +1,32 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h2>Listado de equipos recibidos</h2>
-<table border="1">
-    <tr>
-        <th>Cliente</th>
-        <th>Tipo</th>
-        <th>Problema</th>
-        <th>Detalle</th>
-    </tr>
-    {% for equipo in equipos %}
-    <tr>
-        <td>{{ equipo.nombre }}</td>
-        <td>{{ equipo.tipo }}</td>
-        <td>{{ equipo.problema }}</td>
-        <td><a href="{% url 'detalle_equipo' equipo.nombre %}">Ver detalle</a></td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Listado de equipos recibidos</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Detalle</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipo in equipos %}
+                <tr>
+                    <td>{{ equipo.nombre }}</td>
+                    <td>{{ equipo.tipo }}</td>
+                    <td>
+                        <a href="{% url 'detalle_equipo' equipo.nombre %}" class="btn btn-sm btn-outline-primary">
+                            Ver detalle
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
