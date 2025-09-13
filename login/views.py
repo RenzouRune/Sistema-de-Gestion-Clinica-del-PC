@@ -11,6 +11,7 @@ def login_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         if username == Usuario['user'] and password == Usuario['password']:
+            request.session['autenticado'] = True
             return redirect('recepcion')  
         else:
             mensaje = 'Usuario o contraseña incorrectos.'
