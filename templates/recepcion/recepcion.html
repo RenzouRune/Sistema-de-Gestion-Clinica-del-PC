@@ -1,14 +1,44 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h2>Registrar equipo</h2>
-<form method="post">
-    {% csrf_token %}
-    <input type="text" name="nombre" placeholder="Nombre del cliente" required>
-    <input type="text" name="tipo" placeholder="Tipo de equipo" required>
-    <input type="text" name="problema" placeholder="Problema informado" required>
-    <button type="submit">Registrar</button>
-</form>
-{% if mensaje %}
-    <p style="color:green;">{{ mensaje }}</p>
-{% endif %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Registrar equipo</h2>
+
+                    {% if mensaje %}
+                        <div class="alert alert-success text-center" role="alert">
+                            {{ mensaje }}
+                        </div>
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre del cliente</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tipo" class="form-label">Tipo de equipo</label>
+                            <input type="text" class="form-control" id="tipo" name="tipo" placeholder="Ej. Laptop, PC, Tablet" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="problema" class="form-label">Problema informado</label>
+                            <input type="text" class="form-control" id="problema" name="problema" placeholder="Ej. No enciende, pantalla rota" required>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                            <a href="{% url 'listado_equipos' %}" class="btn btn-outline-secondary">Ver listado de equipos</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
