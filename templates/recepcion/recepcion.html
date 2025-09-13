@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>hola</h1>
-
+<h2>Registrar equipo</h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="nombre" placeholder="Nombre del cliente" required>
+    <input type="text" name="tipo" placeholder="Tipo de equipo" required>
+    <input type="text" name="problema" placeholder="Problema informado" required>
+    <button type="submit">Registrar</button>
+</form>
+{% if mensaje %}
+    <p style="color:green;">{{ mensaje }}</p>
+{% endif %}
 {% endblock %}
