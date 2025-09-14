@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Evaluar Diagnóstico{% endblock %}
+
+{% block content %}
+    <h2>Registrar Diagnóstico y Solución</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="asignacion">Seleccionar Asignación:</label><br>
+        <select name="asignacion" required>
+            <option value="" disabled selected>Seleccione una asignación</option>
+            {% for asignacion in asignaciones %}
+                <option value="{{ forloop.counter0 }}">
+                    Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.nombre_equipo }}
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="diagnostico">Diagnóstico:</label><br>
+        <textarea name="diagnostico" rows="4" cols="50" required></textarea><br><br>
+
+        <label for="solucion">Solución:</label><br>
+        <textarea name="solucion" rows="4" cols="50" required></textarea><br><br>
+
+        <button type="submit">Registrar</button>
+    </form>
+
+    {% if mensaje %}
+        <p><strong>{{ mensaje }}</strong></p>
+    {% endif %}
+
+    <p><a href="{% url 'lista_diagnosticos' %}"><button type="button">Ver Lista de Diagnósticos</button></a></p>
+
+    <p><a href="{% url 'recepcion' %}"><button type="button">Volver</button></a></p>
+{% endblock %}

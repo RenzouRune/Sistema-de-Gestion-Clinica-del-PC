@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Diagnósticos{% endblock %}
+
+{% block content %}
+    <h2>Lista de Diagnósticos Realizados</h2>
+
+    {% if evaluaciones %}
+        <table border="1">
+            <tr>
+                <th>Estudiante</th>
+                <th>Equipo</th>
+                <th>Diagnóstico</th>
+                <th>Solución</th>
+            </tr>
+            {% for eval in evaluaciones %}
+                <tr>
+                    <td>{{ eval.estudiante }}</td>
+                    <td>{{ eval.equipo }}</td>
+                    <td>{{ eval.diagnostico }}</td>
+                    <td>{{ eval.solucion }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No se han registrado diagnósticos aún.</p>
+    {% endif %}
+
+    <p><a href="{% url 'evaluar' %}"><button type="button">Volver</button></a></p>
+{% endblock %}
+
+
