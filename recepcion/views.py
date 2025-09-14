@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
+from .data_store import equipos
 
-
-equipos = []
 
 def recepcion_view(request):
     if not request.session.get('autenticado'):
