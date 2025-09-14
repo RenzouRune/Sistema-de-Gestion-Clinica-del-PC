@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from recepcion.data_store import equipos
 
 asignaciones_globales = []
 
-def asignar(request):
+def asignar(request, equipos=equipos):
     mensaje = ''
     estudiantes = [
         {'nombre': 'matias'},
@@ -12,15 +13,9 @@ def asignar(request):
         {'nombre': 'armando'},
     ]
 
-    equipos = [
-        {'nombre_equipo': 'equipo1'},
-        {'nombre_equipo': 'equipo2'},
-        {'nombre_equipo': 'equipo3'},
-        {'nombre_equipo': 'equipo4'},
-        {'nombre_equipo': 'equipo5'},
-    ]
+    equipos = [{'nombre_equipo': e['tipo']} for e in equipos]
 
-    asignaciones = []
+    
     estudiante_recibido = request.GET.get('estudiante')
     equipo_recibido = request.GET.get('equipo')
     if estudiante_recibido and equipo_recibido:            
