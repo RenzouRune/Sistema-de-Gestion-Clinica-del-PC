@@ -26,6 +26,8 @@
         <button type="submit">Asignar</button>
     </form>
 
+  
+
     {% if mensaje %}
         <p><strong>{{ mensaje }}</strong></p>
     {% endif %}
@@ -43,4 +45,9 @@
             </tr>
         {% endfor %}
     </table>
+
+
+
+    <p><a href="{% url 'recepcion' %}"><button type="button">Volver</button></a></p>
+
 {% endblock %}
