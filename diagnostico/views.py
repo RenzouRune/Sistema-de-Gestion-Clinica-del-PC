@@ -1,8 +1,20 @@
 from django.shortcuts import render, redirect
 from recepcion.data_store import equipos
 
-asignaciones_globales = []
-evaluaciones_globales = []
+asignaciones_globales = [
+    {'estudiante': {'nombre': 'matias'}, 'equipo': {'nombre_equipo': 'Desktop'}},
+    {'estudiante': {'nombre': 'cristal'}, 'equipo': {'nombre_equipo': 'Laptop'}},
+    {'estudiante': {'nombre': 'javier'}, 'equipo': {'nombre_equipo': 'Tablet'}},
+    {'estudiante': {'nombre': 'robin'}, 'equipo': {'nombre_equipo': 'All-in-One'}},
+    {'estudiante': {'nombre': 'armando'}, 'equipo': {'nombre_equipo': 'Notebook'}},
+]
+evaluaciones_globales = [
+    {'estudiante': 'matias', 'equipo': 'Desktop', 'diagnostico': 'Fuente dañada', 'solucion': 'Reemplazo de fuente'},
+    {'estudiante': 'cristal', 'equipo': 'Laptop', 'diagnostico': 'Pantalla quebrada', 'solucion': 'Cambio de pantalla'},
+    {'estudiante': 'javier', 'equipo': 'Tablet', 'diagnostico': 'Batería agotada', 'solucion': 'Instalación de batería nueva'},
+    {'estudiante': 'robin', 'equipo': 'All-in-One', 'diagnostico': 'Teclado desconectado', 'solucion': 'Reconexión de teclado'},
+    {'estudiante': 'armando', 'equipo': 'Notebook', 'diagnostico': 'Sobrecalentamiento', 'solucion': 'Limpieza interna y cambio de pasta térmica'},
+]
 
 def asignar(request, equipos=equipos):
     if not request.session.get('autenticado'):
@@ -14,6 +26,11 @@ def asignar(request, equipos=equipos):
         {'nombre': 'javier'},
         {'nombre': 'robin'},
         {'nombre': 'armando'},
+        {'nombre': 'valentina'},
+        {'nombre': 'sebastian'},
+        {'nombre': 'camila'},
+        {'nombre': 'fernando'},
+        {'nombre': 'paula'},
     ]
 
     equipos = [{'nombre_equipo': e['tipo']} for e in equipos]

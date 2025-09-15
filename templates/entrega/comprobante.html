@@ -1,18 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Comprobante de Entrega</h2>
-  {% if error %}
-    <p>{{ error }}</p>
-  {% else %}
-    <p><strong>Cliente:</strong> {{ cliente }}</p>
-    <p><strong>Equipo:</strong> {{ equipo }}</p>
-    <p><strong>Diagnóstico:</strong> {{ diagnostico }}</p>
-    <p><strong>Solución:</strong> {{ solucion }}</p>
-    <p><strong>Estado de Entrega:</strong> {{ estado }}</p>
-  {% endif %}
+<div class="container mt-5">
+  <div class="col-md-6 mx-auto">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-4">Comprobante de Entrega</h2>
 
-  <a href="{% url 'verificar_entregas' %}?cliente={{ cliente }}">
-    <button type="button">Volver</button>
-  </a>
-{% endblock  %}
+        {% if error %}
+          <div class="alert alert-danger text-center" role="alert">
+            {{ error }}
+          </div>
+        {% else %}
+          <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item"><strong>Cliente:</strong> {{ cliente }}</li>
+            <li class="list-group-item"><strong>Equipo:</strong> {{ equipo }}</li>
+            <li class="list-group-item"><strong>Diagnóstico:</strong> {{ diagnostico }}</li>
+            <li class="list-group-item"><strong>Solución:</strong> {{ solucion }}</li>
+            <li class="list-group-item"><strong>Estado de Entrega:</strong> {{ estado }}</li>
+          </ul>
+        {% endif %}
+
+        <div class="text-center">
+          <a href="{% url 'verificar_entregas' %}?cliente={{ cliente }}" class="btn btn-outline-secondary">Volver</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

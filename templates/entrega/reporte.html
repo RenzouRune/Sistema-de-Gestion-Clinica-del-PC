@@ -1,46 +1,75 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Reporte de Entrega</h2>
-  {% if mensaje %}
-    <p>{{ mensaje }}</p>
-  {% endif %}
-  <form method="post">
-    {% csrf_token %}
-    <label for="asignacion">Asignación:</label>
-    <select name="asignacion" id="asignacion" required>
-      <option value="" disabled selected>Seleccione una asignación</option>
-      {% for asignacion in asignaciones %}
-        {% for evaluacion in evaluaciones %}
-          {% if evaluacion.estudiante == asignacion.estudiante.nombre and evaluacion.equipo == asignacion.equipo.nombre_equipo %}
-            <option value="{{ forloop.parentloop.counter0 }}">
-              Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.nombre_equipo }}
-            </option>
-          {% endif %}
-        {% endfor %}
-      {% endfor %}
-    </select>
-    <br><br>
-    <label>Estado:</label><br>
-    <input type="radio" id="entregado" name="estado" value="entregado" required>
-    <label for="entregado">Entregado</label><br>
-    <input type="radio" id="pendiente" name="estado" value="pendiente">
-    <label for="pendiente">Pendiente</label><br>
-    <input type="radio" id="en_observacion" name="estado" value="en observacion">
-    <label for="en_observacion">En Observación</label><br><br>
-    <button type="submit">Registrar Reporte</button>
-  </form>
+<div class="container mt-5">
+  <div class="col-md-8 mx-auto">
+    <h2 class="text-center mb-4">Reporte de Entrega</h2>
 
-  <h3>Reportes Registrados</h3>
-  <ul>
-    {% for entrega in entregas %}
-      <li>
-        Estudiante: {{ entrega.estudiante }}, Equipo: {{ entrega.equipo }}, Cliente: {{ entrega.cliente }}, Estado: {{ entrega.estado }}
-      </li>
-    {% empty %}
-      <li>No hay reportes registrados.</li>
-    {% endfor %}
-  </ul>
+    {% if mensaje %}
+      <div class="alert alert-info text-center" role="alert">
+        {{ mensaje }}
+      </div>
+    {% endif %}
 
-  <a href="{% url 'recepcion' %}"><button type="button">Volver</button></a>
+    <form method="post" class="card p-4 shadow-sm mb-4">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="asignacion" class="form-label">Asignación</label>
+        <select name="asignacion" id="asignacion" class="form-select" required>
+          <option value="" disabled selected>Seleccione una asignación</option>
+          {% for asignacion in asignaciones %}
+            {% for evaluacion in evaluaciones %}
+              {% if evaluacion.estudiante == asignacion.estudiante.nombre and evaluacion.equipo == asignacion.equipo.nombre_equipo %}
+                <option value="{{ forloop.parentloop.counter0 }}">
+                  Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.nombre_equipo }}
+                </option>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label d-block">Estado</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="entregado" name="estado" value="entregado" required>
+          <label class="form-check-label" for="entregado">Entregado</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="pendiente" name="estado" value="pendiente">
+          <label class="form-check-label" for="pendiente">Pendiente</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="en_observacion" name="estado" value="en observacion">
+          <label class="form-check-label" for="en_observacion">En Observación</label>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Registrar Reporte</button>
+        <a href="{% url 'recepcion' %}" class="btn btn-outline-secondary">Volver</a>
+      </div>
+    </form>
+
+    <div class="card shadow-sm p-4">
+      <h3 class="mb-3">Reportes Registrados</h3>
+      {% if entregas %}
+        <ul class="list-group list-group-flush">
+          {% for entrega in entregas %}
+            <li class="list-group-item">
+              <strong>Estudiante:</strong> {{ entrega.estudiante }},
+              <strong>Equipo:</strong> {{ entrega.equipo }},
+              <strong>Cliente:</strong> {{ entrega.cliente }},
+              <strong>Estado:</strong> {{ entrega.estado }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="alert alert-warning text-center" role="alert">
+          No hay reportes registrados.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}
