@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Comprobante de Entrega</h2>
+  {% if error %}
+    <p>{{ error }}</p>
+  {% else %}
+    <p><strong>Cliente:</strong> {{ cliente }}</p>
+    <p><strong>Equipo:</strong> {{ equipo }}</p>
+    <p><strong>Diagnóstico:</strong> {{ diagnostico }}</p>
+    <p><strong>Solución:</strong> {{ solucion }}</p>
+    <p><strong>Estado de Entrega:</strong> {{ estado }}</p>
+  {% endif %}
+
+  <a href="{% url 'verificar_entregas' %}?cliente={{ cliente }}">
+    <button type="button">Volver</button>
+  </a>
+{% endblock  %}

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
+autenticado = False
 
 def login_view(request):
+    autenticado = False
     Usuario = {
         'user': 'inacap',
         'password': 'clinica2025'

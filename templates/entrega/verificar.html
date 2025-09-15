@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Verificar Entregas por Cliente</h2>
+  {% if mensaje %}
+    <p>{{ mensaje }}</p>
+  {% endif %}
+  <form method="get">
+    <label for="cliente">Seleccione un cliente:</label>
+    <select name="cliente" id="cliente" required>
+      <option value="" disabled selected>Seleccione un cliente</option>
+      {% for cliente in clientes %}
+        <option value="{{ cliente }}" {% if cliente == request.GET.cliente %}selected{% endif %}>{{ cliente }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Verificar</button>
+  </form>
+
+  {% if entregas_cliente %}
+    <h3>Equipos y Estado del Cliente {{ request.GET.cliente }}</h3>
+    <ul>
+      {% for entrega in entregas_cliente %}
+        <li>Equipo: {{ entrega.equipo }}, Estado: {{ entrega.estado }}
+          <a href="{% url 'comprobante' %}?cliente={{ request.GET.cliente }}&equipo={{ entrega.equipo }}">
+            <button type="button">Ver Comprobante</button>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <a href="{% url 'recepcion' %}"><button type="button">Volver</button></a>
+{% endblock  %}

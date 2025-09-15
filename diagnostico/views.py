@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from recepcion.data_store import equipos
 
 asignaciones_globales = []
 evaluaciones_globales = []
 
 def asignar(request, equipos=equipos):
+    if not request.session.get('autenticado'):
+        return redirect('/')
     mensaje = ''
     estudiantes = [
         {'nombre': 'matias'},
@@ -40,6 +42,8 @@ def asignar(request, equipos=equipos):
     })
 
 def evaluar(request):
+    if not request.session.get('autenticado'):
+        return redirect('/')
     mensaje = ''
     if request.method == 'POST':
         diagnostico = request.POST.get('diagnostico')
@@ -49,14 +53,17 @@ def evaluar(request):
             index = int(asignacion_index)
             if 0 <= index < len(asignaciones_globales):
                 asignacion = asignaciones_globales[index]
-                evaluacion = {
-                    'estudiante': asignacion['estudiante']['nombre'],
-                    'equipo': asignacion['equipo']['nombre_equipo'],
-                    'diagnostico': diagnostico,
-                    'solucion': solucion
-                }
-                evaluaciones_globales.append(evaluacion)
-                mensaje = 'Diagnóstico y solución registrados con éxito.'
+                if any(e['equipo'] == asignacion['equipo']['nombre_equipo'] for e in evaluaciones_globales):
+                    mensaje = 'Este equipo ya tiene un diagnostico'
+                else:
+                    evaluacion = {
+                        'estudiante': asignacion['estudiante']['nombre'],
+                        'equipo': asignacion['equipo']['nombre_equipo'],
+                        'diagnostico': diagnostico,
+                        'solucion': solucion
+                    }
+                    evaluaciones_globales.append(evaluacion)
+                    mensaje = 'Diagnóstico y solución registrados con éxito.'
             else:
                 mensaje = 'Asignación inválida.'
         else:
@@ -64,4 +71,6 @@ def evaluar(request):
     return render(request, 'diagnostico/evaluar.html', {'mensaje': mensaje, 'asignaciones': asignaciones_globales})
 
 def lista_diagnosticos(request):
+    if not request.session.get('autenticado'):
+        return redirect('inicio')
     return render(request, 'diagnostico/lista_de_diagnosticos.html', {'evaluaciones': evaluaciones_globales})
