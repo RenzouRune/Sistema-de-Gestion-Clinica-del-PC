@@ -30,19 +30,28 @@ def reporte(request):
                 if not tiene_diagnostico:
                     mensaje = 'La asignación seleccionada no tiene un diagnóstico realizado.'
                 else:
-                    equipo_obj = next((e for e in equipos if e['tipo'] == asignacion['equipo']['nombre_equipo']), None)
-                    if equipo_obj:
-                        cliente = equipo_obj['nombre']
+                    # Verificar si ya existe un reporte para esta asignación
+                    ya_reportado = any(
+                        e['estudiante'] == asignacion['estudiante']['nombre'] and
+                        e['equipo'] == asignacion['equipo']['nombre_equipo']
+                        for e in entregas_globales
+                    )
+                    if ya_reportado:
+                        mensaje = 'Ya existe un reporte para esta asignación.'
                     else:
-                        cliente = 'Cliente no encontrado'
-                    entrega_dict = {
-                        'estudiante': asignacion['estudiante']['nombre'],
-                        'equipo': asignacion['equipo']['nombre_equipo'],
-                        'cliente': cliente,
-                        'estado': estado
-                    }
-                    entregas_globales.append(entrega_dict)
-                    mensaje = 'Reporte registrado con éxito.'
+                        equipo_obj = next((e for e in equipos if e['tipo'] == asignacion['equipo']['nombre_equipo']), None)
+                        if equipo_obj:
+                            cliente = equipo_obj['nombre']
+                        else:
+                            cliente = 'Cliente no encontrado'
+                        entrega_dict = {
+                            'estudiante': asignacion['estudiante']['nombre'],
+                            'equipo': asignacion['equipo']['nombre_equipo'],
+                            'cliente': cliente,
+                            'estado': estado
+                        }
+                        entregas_globales.append(entrega_dict)
+                        mensaje = 'Reporte registrado con éxito.'
             else:
                 mensaje = 'Asignación inválida.'
         else:
