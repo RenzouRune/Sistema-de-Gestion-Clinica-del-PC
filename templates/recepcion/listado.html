@@ -28,9 +28,11 @@
             </tbody>
         </table>
     </div>
-
     <div class="text-center mt-4">
-        <a href="{% url 'recepcion' %}" class="btn btn-primary">Registrar nuevo equipo</a>
+        <div class="card bg-white text-dark shadow-sm d-inline-block px-4 py-3">
+            <a href="{% url 'recepcion' %}" class="btn btn-primary me-2">Volver a Registro</a>
+            <a href="{% url 'asignar_estudiante' %}" class="btn btn-success">Asignar Estudiante</a>
+        </div>
     </div>
 </div>
 {% endblock %}

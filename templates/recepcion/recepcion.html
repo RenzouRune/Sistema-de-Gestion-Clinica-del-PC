@@ -2,9 +2,10 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="row justify-content-center">
+    <div class="row">
+
         <div class="col-md-8">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm mb-4">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Registrar equipo</h2>
 
@@ -31,23 +32,31 @@
                             <input type="text" class="form-control" id="problema" name="problema" placeholder="Ej. No enciende, pantalla rota" required>
                         </div>
 
-                        <div class="d-grid gap-2">
+                        <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Registrar</button>
-                            <a href="{% url 'listado_equipos' %}" class="btn btn-outline-secondary">Ver listado de equipos</a>
                         </div>
-
-                        
                     </form>
-                    <a href="{% url 'asignar_estudiante' %}">
-                        <button>Asignar Estudiante</button>
-                         </a>
+                </div>
+            </div>
+        </div>
 
-                             <p><a href="{% url 'evaluar' %}"><button type="button">Ir a Evaluar</button></a></p>
+        <div class="col-md-4">
 
-                             <p><a href="{% url 'reporte' %}"><button type="button">Ir a Reporte</button></a></p>
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-3">¿Qué deseas hacer?</h5>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'listado_equipos' %}" class="btn btn-outline-secondary">Ver listado de equipos</a>
+                        <a href="{% url 'reporte' %}" class="btn btn-outline-info">Ir a Reporte</a>
+                        <a href="{% url 'verificar_entregas' %}" class="btn btn-outline-success">Verificar Entregas</a>
+                    </div>
+                </div>
+            </div>
 
-                             <p><a href="{% url 'verificar_entregas' %}"><button type="button">Verificar Entregas</button></a></p>
-
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h6 class="card-subtitle mb-3 text-muted">Sesión activa</h6>
+                    <a href="{% url 'logout' %}" class="btn btn-danger">Cerrar sesión</a>
                 </div>
             </div>
         </div>

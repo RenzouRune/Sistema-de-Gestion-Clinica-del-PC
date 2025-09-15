@@ -2,7 +2,13 @@ from django.shortcuts import redirect, render
 from diagnostico.views import asignaciones_globales, evaluaciones_globales
 from recepcion.data_store import equipos
 
-entregas_globales = []
+entregas_globales = [
+    {'estudiante': 'matias', 'equipo': 'Desktop', 'cliente': 'Juan Vargas', 'estado': 'Entregado'},
+    {'estudiante': 'cristal', 'equipo': 'Laptop', 'cliente': 'Maria Sanchez', 'estado': 'Pendiente'},
+    {'estudiante': 'javier', 'equipo': 'Tablet', 'cliente': 'Pedro Alvarado', 'estado': 'Entregado'},
+    {'estudiante': 'robin', 'equipo': 'All-in-One', 'cliente': 'Ana Torres', 'estado': 'Entregado'},
+    {'estudiante': 'armando', 'equipo': 'Notebook', 'cliente': 'Luis Fuentes', 'estado': 'Pendiente'},
+]
 
 def reporte(request):
     if not request.session.get('autenticado'):

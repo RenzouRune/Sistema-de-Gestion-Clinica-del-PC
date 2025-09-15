@@ -24,3 +24,8 @@ def login_view(request):
 
     return render(request, 'login/login.html', {'mensaje': mensaje})
 
+def logout_view(request):
+    if request.method == 'POST':
+        request.session['autenticado'] = False
+        return redirect('/')
+    return render(request, 'login/logout.html')

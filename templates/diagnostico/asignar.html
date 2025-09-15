@@ -1,53 +1,94 @@
-
 {% extends "base.html" %}
 
 {% block title %}Asignar Estudiante a Equipo{% endblock %}
 
 {% block content %}
-    <h2>Asignar Estudiante a un Equipo</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Asignar Estudiante a un Equipo</h2>
 
-    <form method="GET">
-        <label for="estudiante">Estudiante:</label>
-        <select name="estudiante">
-            <option value="" selected>-- Seleccionar Estudiante --</option>
-            {% for estudiante in estudiantes %}
-                <option value="{{ estudiante.nombre }}">{{ estudiante.nombre }}</option>
-            {% endfor %}
-        </select><br><br>
+                    {% if mensaje %}
+                        <div class="alert alert-info text-center" role="alert">
+                            <strong>{{ mensaje }}</strong>
+                        </div>
+                    {% endif %}
 
-        <label for="equipo">Equipo:</label>
-        <select name="equipo">
-            <option value="" selected>-- Seleccionar Equipo --</option>
-            {% for equipo in equipos %}
-                <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
-            {% endfor %}
-        </select><br><br>
+                    <form method="GET">
+                        <div class="mb-3">
+                            <label for="estudiante" class="form-label">Estudiante</label>
+                            <select name="estudiante" id="estudiante" class="form-select" required>
+                                <option value="" selected>-- Seleccionar Estudiante --</option>
+                                {% for estudiante in estudiantes %}
+                                    <option value="{{ estudiante.nombre }}">{{ estudiante.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-        <button type="submit">Asignar</button>
-    </form>
+                        <div class="mb-3">
+                            <label for="equipo" class="form-label">Equipo</label>
+                            <select name="equipo" id="equipo" class="form-select" required>
+                                <option value="" selected>-- Seleccionar Equipo --</option>
+                                {% for equipo in equipos %}
+                                    <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-  
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Asignar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-    {% if mensaje %}
-        <p><strong>{{ mensaje }}</strong></p>
-    {% endif %}
+            <div class="mt-5">
+                <h3 class="mb-3">Asignaciones realizadas</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Estudiante</th>
+                                <th>Equipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for asignacion in asignaciones %}
+                                <tr>
+                                    <td>{{ asignacion.estudiante.nombre }}</td>
+                                    <td>{{ asignacion.equipo.nombre_equipo }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
-    <h3>Asignaciones realizadas:</h3>
-    <table>
-        <tr>
-            <th>Estudiante</th>
-            <th>Equipo</th>
-        </tr>
-        {% for asignacion in asignaciones %}
-            <tr>
-                <td>{{ asignacion.estudiante.nombre }}</td>
-                <td>{{ asignacion.equipo.nombre_equipo }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-
-
-
-    <p><a href="{% url 'recepcion' %}"><button type="button">Volver</button></a></p>
-
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-6">
+                        <div class="card shadow-sm bg-light">
+                            <div class="card-body text-center">
+                                <a href="{% url 'evaluar' %}" class="btn btn-success me-2">Evaluar Diagnóstico</a>
+                                <a href="{% url 'listado_equipos' %}" class="btn btn-secondary">Volver</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm bg-light">
+            <div class="card-body text-center">
+                <a href="{% url 'evaluar' %}" class="btn btn-success me-2">Evaluar Diagnóstico</a>
+                <a href="{% url 'listado_equipos' %}" class="btn btn-secondary">Volver</a>
+            </div>
+        </div>
+    </div>
+</div>

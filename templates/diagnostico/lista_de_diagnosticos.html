@@ -3,30 +3,41 @@
 {% block title %}Lista de Diagnósticos{% endblock %}
 
 {% block content %}
-    <h2>Lista de Diagnósticos Realizados</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lista de Diagnósticos Realizados</h2>
 
     {% if evaluaciones %}
-        <table border="1">
-            <tr>
-                <th>Estudiante</th>
-                <th>Equipo</th>
-                <th>Diagnóstico</th>
-                <th>Solución</th>
-            </tr>
-            {% for eval in evaluaciones %}
-                <tr>
-                    <td>{{ eval.estudiante }}</td>
-                    <td>{{ eval.equipo }}</td>
-                    <td>{{ eval.diagnostico }}</td>
-                    <td>{{ eval.solucion }}</td>
-                </tr>
-            {% endfor %}
-        </table>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Equipo</th>
+                        <th>Diagnóstico</th>
+                        <th>Solución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for eval in evaluaciones %}
+                        <tr>
+                            <td>{{ eval.estudiante }}</td>
+                            <td>{{ eval.equipo }}</td>
+                            <td>{{ eval.diagnostico }}</td>
+                            <td>{{ eval.solucion }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% else %}
-        <p>No se han registrado diagnósticos aún.</p>
+        <div class="alert alert-warning text-center" role="alert">
+            No se han registrado diagnósticos aún.
+        </div>
     {% endif %}
-
-    <p><a href="{% url 'evaluar' %}"><button type="button">Volver</button></a></p>
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card bg-white text-dark shadow-sm px-4 py-3">
+            <a href="{% url 'evaluar' %}" class="btn btn-outline-secondary">Volver</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
-
-
