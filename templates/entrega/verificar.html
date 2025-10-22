@@ -32,8 +32,8 @@
         <ul class="list-group list-group-flush">
           {% for entrega in entregas_cliente %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span>Equipo: {{ entrega.equipo }}, Estado: {{ entrega.estado }}</span>
-              <a href="{% url 'comprobante' %}?cliente={{ request.GET.cliente }}&equipo={{ entrega.equipo }}" class="btn btn-sm btn-outline-primary">
+              <span>Equipo: {{ entrega.asignacion.equipo.tipo }}, Estado: {{ entrega.estado }}</span>
+              <a href="{% url 'comprobante' %}?cliente={{ request.GET.cliente }}&equipo={{ entrega.asignacion.equipo.id }}" class="btn btn-sm btn-outline-primary">
                 Ver Comprobante
               </a>
             </li>

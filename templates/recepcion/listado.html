@@ -16,10 +16,10 @@
             <tbody>
                 {% for equipo in equipos %}
                 <tr>
-                    <td>{{ equipo.nombre }}</td>
+                    <td>{{ equipo.cliente }}</td>
                     <td>{{ equipo.tipo }}</td>
                     <td>
-                        <a href="{% url 'detalle_equipo' equipo.nombre %}" class="btn btn-sm btn-outline-primary">
+                        <a href="{% url 'detalle_equipo' equipo.cliente %}" class="btn btn-sm btn-outline-primary">
                             Ver detalle
                         </a>
                     </td>

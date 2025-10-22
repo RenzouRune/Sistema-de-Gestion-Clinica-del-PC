@@ -24,8 +24,8 @@
                             <select name="asignacion" id="asignacion" class="form-select" required>
                                 <option value="" disabled selected>Seleccione una asignación</option>
                                 {% for asignacion in asignaciones %}
-                                    <option value="{{ forloop.counter0 }}">
-                                        Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.nombre_equipo }}
+                                    <option value="{{ asignacion.id }}">
+                                        Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.tipo }} - {{ asignacion.equipo.cliente }}
                                     </option>
                                 {% endfor %}
                             </select>
