@@ -15,7 +15,7 @@ def login_view(request):
         if user:
             request.session['autenticado'] = True
             request.session['user'] = user.nombre
-            request.session['rol'] = user.rol
+            request.session['rol'] = user.rol.nombre_rol
             return redirect('recepcion')
         else:
             mensaje = 'Usuario o contraseña incorrectos.'
@@ -28,12 +28,16 @@ def register_view(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         contraseña = request.POST.get('contraseña')
-        rol = request.POST.get('rol')
+        rol_nombre = request.POST.get('rol')
         if usuarios.objects.filter(nombre=nombre).exists():
             mensaje = 'El usuario ya existe.'
         else:
-            usuarios.objects.create(nombre=nombre, contraseña=contraseña, rol=rol)
-            return redirect('login')
+            try:
+                rol_instance = roles.objects.get(nombre_rol=rol_nombre)
+                usuarios.objects.create(nombre=nombre, contraseña=contraseña, rol=rol_instance)
+                return redirect('login')
+            except roles.DoesNotExist:
+                mensaje = 'El rol seleccionado no existe.'
     roles_list = roles.objects.all()
     return render(request, 'login/register.html', {'roles': roles_list, 'mensaje': mensaje})
 

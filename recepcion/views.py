@@ -1,26 +1,26 @@
 from django.shortcuts import render, redirect
-from .data_store import equipos
-
+from .models import Equipo
 
 def recepcion_view(request):
     if not request.session.get('autenticado'):
         return redirect('/')
     mensaje = None
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
+        cliente = request.POST.get('cliente')
         tipo = request.POST.get('tipo')
         problema = request.POST.get('problema')
-        equipos.append({'nombre': nombre, 'tipo': tipo, 'problema': problema})
+        Equipo.objects.create(cliente=cliente, tipo=tipo, problema=problema)
         mensaje = 'Equipo registrado exitosamente'
     return render(request, 'recepcion/recepcion.html', {'mensaje': mensaje})
 
 def listado_equipos(request):
     if not request.session.get('autenticado'):
         return redirect('/')
+    equipos = Equipo.objects.all()
     return render(request, 'recepcion/listado.html', {'equipos': equipos})
 
 def detalle_equipo(request, nombre):
     if not request.session.get('autenticado'):
         return redirect('/')
-    equipo = next((e for e in equipos if e['nombre'] == nombre), None)
+    equipo = Equipo.objects.filter(cliente=nombre).first()
     return render(request, 'recepcion/detalle.html', {'equipo': equipo})

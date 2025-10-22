@@ -18,13 +18,11 @@
         <select name="asignacion" id="asignacion" class="form-select" required>
           <option value="" disabled selected>Seleccione una asignación</option>
           {% for asignacion in asignaciones %}
-            {% for evaluacion in evaluaciones %}
-              {% if evaluacion.estudiante == asignacion.estudiante.nombre and evaluacion.equipo == asignacion.equipo.nombre_equipo %}
-                <option value="{{ forloop.parentloop.counter0 }}">
-                  Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.nombre_equipo }}
-                </option>
-              {% endif %}
-            {% endfor %}
+            {% if asignacion.evaluacion %}
+              <option value="{{ asignacion.id }}">
+                Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.tipo }} - {{ asignacion.equipo.cliente }}
+              </option>
+            {% endif %}
           {% endfor %}
         </select>
       </div>
@@ -57,9 +55,9 @@
         <ul class="list-group list-group-flush">
           {% for entrega in entregas %}
             <li class="list-group-item">
-              <strong>Estudiante:</strong> {{ entrega.estudiante }},
-              <strong>Equipo:</strong> {{ entrega.equipo }},
-              <strong>Cliente:</strong> {{ entrega.cliente }},
+              <strong>Estudiante:</strong> {{ entrega.asignacion.estudiante.nombre }},
+              <strong>Equipo:</strong> {{ entrega.asignacion.equipo.tipo }} - {{ entrega.asignacion.equipo.cliente }},
+              <strong>Cliente:</strong> {{ entrega.asignacion.equipo.cliente }},
               <strong>Estado:</strong> {{ entrega.estado }}
             </li>
           {% endfor %}

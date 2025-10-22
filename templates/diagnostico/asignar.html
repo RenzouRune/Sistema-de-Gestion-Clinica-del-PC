@@ -16,13 +16,14 @@
                         </div>
                     {% endif %}
 
-                    <form method="GET">
+                    <form method="POST">
+                        {% csrf_token %}
                         <div class="mb-3">
                             <label for="estudiante" class="form-label">Estudiante</label>
                             <select name="estudiante" id="estudiante" class="form-select" required>
                                 <option value="" selected>-- Seleccionar Estudiante --</option>
                                 {% for estudiante in estudiantes %}
-                                    <option value="{{ estudiante.nombre }}">{{ estudiante.nombre }}</option>
+                                    <option value="{{ estudiante.id }}">{{ estudiante.nombre }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -32,7 +33,7 @@
                             <select name="equipo" id="equipo" class="form-select" required>
                                 <option value="" selected>-- Seleccionar Equipo --</option>
                                 {% for equipo in equipos %}
-                                    <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
+                                    <option value="{{ equipo.id }}">{{ equipo.tipo }} - {{ equipo.cliente }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -58,7 +59,7 @@
                             {% for asignacion in asignaciones %}
                                 <tr>
                                     <td>{{ asignacion.estudiante.nombre }}</td>
-                                    <td>{{ asignacion.equipo.nombre_equipo }}</td>
+                                    <td>{{ asignacion.equipo.tipo }} - {{ asignacion.equipo.cliente }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

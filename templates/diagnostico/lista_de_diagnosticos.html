@@ -20,8 +20,8 @@
                 <tbody>
                     {% for eval in evaluaciones %}
                         <tr>
-                            <td>{{ eval.estudiante }}</td>
-                            <td>{{ eval.equipo }}</td>
+                            <td>{{ eval.asignacion.estudiante.nombre }}</td>
+                            <td>{{ eval.asignacion.equipo.tipo }} - {{ eval.asignacion.equipo.cliente }}</td>
                             <td>{{ eval.diagnostico }}</td>
                             <td>{{ eval.solucion }}</td>
                         </tr>

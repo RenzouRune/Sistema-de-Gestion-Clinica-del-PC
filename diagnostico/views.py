@@ -1,60 +1,33 @@
 from django.shortcuts import render, redirect
-from recepcion.data_store import equipos
+from .models import Estudiante, Asignacion, Evaluacion
+from recepcion.models import Equipo
 
-asignaciones_globales = [
-    {'estudiante': {'nombre': 'matias'}, 'equipo': {'nombre_equipo': 'Desktop'}},
-    {'estudiante': {'nombre': 'cristal'}, 'equipo': {'nombre_equipo': 'Laptop'}},
-    {'estudiante': {'nombre': 'javier'}, 'equipo': {'nombre_equipo': 'Tablet'}},
-    {'estudiante': {'nombre': 'robin'}, 'equipo': {'nombre_equipo': 'All-in-One'}},
-    {'estudiante': {'nombre': 'armando'}, 'equipo': {'nombre_equipo': 'Notebook'}},
-]
-evaluaciones_globales = [
-    {'estudiante': 'matias', 'equipo': 'Desktop', 'diagnostico': 'Fuente dañada', 'solucion': 'Reemplazo de fuente'},
-    {'estudiante': 'cristal', 'equipo': 'Laptop', 'diagnostico': 'Pantalla quebrada', 'solucion': 'Cambio de pantalla'},
-    {'estudiante': 'javier', 'equipo': 'Tablet', 'diagnostico': 'Batería agotada', 'solucion': 'Instalación de batería nueva'},
-    {'estudiante': 'robin', 'equipo': 'All-in-One', 'diagnostico': 'Teclado desconectado', 'solucion': 'Reconexión de teclado'},
-    {'estudiante': 'armando', 'equipo': 'Notebook', 'diagnostico': 'Sobrecalentamiento', 'solucion': 'Limpieza interna y cambio de pasta térmica'},
-]
-
-def asignar(request, equipos=equipos):
+def asignar(request):
     if not request.session.get('autenticado'):
         return redirect('/')
     mensaje = ''
-    estudiantes = [
-        {'nombre': 'matias'},
-        {'nombre': 'cristal'},
-        {'nombre': 'javier'},
-        {'nombre': 'robin'},
-        {'nombre': 'armando'},
-        {'nombre': 'valentina'},
-        {'nombre': 'sebastian'},
-        {'nombre': 'camila'},
-        {'nombre': 'fernando'},
-        {'nombre': 'paula'},
-    ]
+    estudiantes = Estudiante.objects.all()
+    equipos_disponibles = Equipo.objects.filter(asignacion__isnull=True)
 
-    equipos = [{'nombre_equipo': e['tipo']} for e in equipos]
-
-    assigned_equipos = {a['equipo']['nombre_equipo'] for a in asignaciones_globales}
-    equipos_disponibles = [e for e in equipos if e['nombre_equipo'] not in assigned_equipos]
-
-    estudiante_recibido = request.GET.get('estudiante')
-    equipo_recibido = request.GET.get('equipo')
-    
-    if estudiante_recibido and equipo_recibido:
-        if any(a['equipo']['nombre_equipo'] == equipo_recibido for a in asignaciones_globales):
-            mensaje = 'El equipo ya está asignado a otro estudiante.'
+    if request.method == 'POST':
+        estudiante_id = request.POST.get('estudiante')
+        equipo_id = request.POST.get('equipo')
+        if estudiante_id and equipo_id:
+            estudiante = Estudiante.objects.get(id=estudiante_id)
+            equipo = Equipo.objects.get(id=equipo_id)
+            if Asignacion.objects.filter(equipo=equipo).exists():
+                mensaje = 'El equipo ya está asignado a otro estudiante.'
+            else:
+                Asignacion.objects.create(estudiante=estudiante, equipo=equipo)
+                mensaje = 'Asignación realizada con éxito.'
         else:
-            estudiante = next(e for e in estudiantes if e['nombre'] == estudiante_recibido)
-            equipo = next(e for e in equipos if e['nombre_equipo'] == equipo_recibido)
+            mensaje = 'Por favor, seleccione estudiante y equipo.'
 
-            asignaciones_globales.append({'estudiante': estudiante, 'equipo': equipo})
-            mensaje = 'Asignación realizada con éxito.'
-
+    asignaciones = Asignacion.objects.all()
     return render(request, 'diagnostico/asignar.html', {
         'estudiantes': estudiantes,
         'equipos': equipos_disponibles,
-        'asignaciones': asignaciones_globales,
+        'asignaciones': asignaciones,
         'mensaje': mensaje,
     })
 
@@ -65,29 +38,43 @@ def evaluar(request):
     if request.method == 'POST':
         diagnostico = request.POST.get('diagnostico')
         solucion = request.POST.get('solucion')
-        asignacion_index = request.POST.get('asignacion')
-        if diagnostico and solucion and asignacion_index and asignacion_index.isdigit():
-            index = int(asignacion_index)
-            if 0 <= index < len(asignaciones_globales):
-                asignacion = asignaciones_globales[index]
-                if any(e['equipo'] == asignacion['equipo']['nombre_equipo'] for e in evaluaciones_globales):
-                    mensaje = 'Este equipo ya tiene un diagnostico'
-                else:
-                    evaluacion = {
-                        'estudiante': asignacion['estudiante']['nombre'],
-                        'equipo': asignacion['equipo']['nombre_equipo'],
-                        'diagnostico': diagnostico,
-                        'solucion': solucion
-                    }
-                    evaluaciones_globales.append(evaluacion)
-                    mensaje = 'Diagnóstico y solución registrados con éxito.'
+        asignacion_id = request.POST.get('asignacion')
+        if diagnostico and solucion and asignacion_id:
+            asignacion = Asignacion.objects.get(id=asignacion_id)
+            if Evaluacion.objects.filter(asignacion=asignacion).exists():
+                mensaje = 'Este equipo ya tiene un diagnóstico.'
             else:
-                mensaje = 'Asignación inválida.'
+                Evaluacion.objects.create(asignacion=asignacion, diagnostico=diagnostico, solucion=solucion)
+                mensaje = 'Diagnóstico y solución registrados con éxito.'
         else:
             mensaje = 'Por favor, complete todos los campos y seleccione una asignación.'
-    return render(request, 'diagnostico/evaluar.html', {'mensaje': mensaje, 'asignaciones': asignaciones_globales})
+    asignaciones = Asignacion.objects.all()
+    return render(request, 'diagnostico/evaluar.html', {'mensaje': mensaje, 'asignaciones': asignaciones})
 
 def lista_diagnosticos(request):
     if not request.session.get('autenticado'):
         return redirect('inicio')
-    return render(request, 'diagnostico/lista_de_diagnosticos.html', {'evaluaciones': evaluaciones_globales})
+    evaluaciones = Evaluacion.objects.all()
+    return render(request, 'diagnostico/lista_de_diagnosticos.html', {'evaluaciones': evaluaciones})
+
+def crear_estudiante(request):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    mensaje = ''
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        if nombre:
+            if Estudiante.objects.filter(nombre=nombre).exists():
+                mensaje = 'El estudiante ya existe.'
+            else:
+                Estudiante.objects.create(nombre=nombre)
+                mensaje = 'Estudiante creado exitosamente.'
+        else:
+            mensaje = 'Por favor, ingrese un nombre.'
+    return render(request, 'diagnostico/crear_estudiante.html', {'mensaje': mensaje})
+
+def listar_estudiantes(request):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    estudiantes = Estudiante.objects.all()
+    return render(request, 'diagnostico/listar_estudiantes.html', {'estudiantes': estudiantes})

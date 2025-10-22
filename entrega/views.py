@@ -1,80 +1,47 @@
 from django.shortcuts import redirect, render
-from diagnostico.views import asignaciones_globales, evaluaciones_globales
-from recepcion.data_store import equipos
-
-entregas_globales = [
-    {'estudiante': 'matias', 'equipo': 'Desktop', 'cliente': 'Juan Vargas', 'estado': 'Entregado'},
-    {'estudiante': 'cristal', 'equipo': 'Laptop', 'cliente': 'Maria Sanchez', 'estado': 'Pendiente'},
-    {'estudiante': 'javier', 'equipo': 'Tablet', 'cliente': 'Pedro Alvarado', 'estado': 'Entregado'},
-    {'estudiante': 'robin', 'equipo': 'All-in-One', 'cliente': 'Ana Torres', 'estado': 'Entregado'},
-    {'estudiante': 'armando', 'equipo': 'Notebook', 'cliente': 'Luis Fuentes', 'estado': 'Pendiente'},
-]
+from .models import Entrega
+from diagnostico.models import Asignacion, Evaluacion
+from recepcion.models import Equipo
 
 def reporte(request):
     if not request.session.get('autenticado'):
         return redirect('inicio')
     mensaje = ''
     if request.method == 'POST':
-        asignacion_index = request.POST.get('asignacion')
+        asignacion_id = request.POST.get('asignacion')
         estado = request.POST.get('estado')
-        if asignacion_index and estado and asignacion_index.isdigit():
-            index = int(asignacion_index)
-            if 0 <= index < len(asignaciones_globales):
-                asignacion = asignaciones_globales[index]
-                # Verificar si tiene diagnóstico
-                tiene_diagnostico = any(
-                    e['estudiante'] == asignacion['estudiante']['nombre'] and
-                    e['equipo'] == asignacion['equipo']['nombre_equipo']
-                    for e in evaluaciones_globales
-                )
-                if not tiene_diagnostico:
-                    mensaje = 'La asignación seleccionada no tiene un diagnóstico realizado.'
-                else:
-                    # Verificar si ya existe un reporte para esta asignación
-                    ya_reportado = any(
-                        e['estudiante'] == asignacion['estudiante']['nombre'] and
-                        e['equipo'] == asignacion['equipo']['nombre_equipo']
-                        for e in entregas_globales
-                    )
-                    if ya_reportado:
-                        mensaje = 'Ya existe un reporte para esta asignación.'
-                    else:
-                        equipo_obj = next((e for e in equipos if e['tipo'] == asignacion['equipo']['nombre_equipo']), None)
-                        if equipo_obj:
-                            cliente = equipo_obj['nombre']
-                        else:
-                            cliente = 'Cliente no encontrado'
-                        entrega_dict = {
-                            'estudiante': asignacion['estudiante']['nombre'],
-                            'equipo': asignacion['equipo']['nombre_equipo'],
-                            'cliente': cliente,
-                            'estado': estado
-                        }
-                        entregas_globales.append(entrega_dict)
-                        mensaje = 'Reporte registrado con éxito.'
+        if asignacion_id and estado:
+            asignacion = Asignacion.objects.get(id=asignacion_id)
+            if not Evaluacion.objects.filter(asignacion=asignacion).exists():
+                mensaje = 'La asignación seleccionada no tiene un diagnóstico realizado.'
+            elif Entrega.objects.filter(asignacion=asignacion).exists():
+                mensaje = 'Ya existe un reporte para esta asignación.'
             else:
-                mensaje = 'Asignación inválida.'
+                Entrega.objects.create(asignacion=asignacion, estado=estado)
+                mensaje = 'Reporte registrado con éxito.'
         else:
             mensaje = 'Por favor, seleccione una asignación y un estado.'
+    asignaciones = Asignacion.objects.all()
+    evaluaciones = Evaluacion.objects.all()
+    entregas = Entrega.objects.all()
     return render(request, 'entrega/reporte.html', {
-        'asignaciones': asignaciones_globales,
-        'evaluaciones': evaluaciones_globales,
-        'entregas': entregas_globales,
+        'asignaciones': asignaciones,
+        'evaluaciones': evaluaciones,
+        'entregas': entregas,
         'mensaje': mensaje
     })
-
 
 def verificar_entregas(request):
     if not request.session.get('autenticado'):
         return redirect('inicio')
-    clientes = list(set(e['nombre'] for e in equipos))
+    clientes = Equipo.objects.values_list('cliente', flat=True).distinct()
     mensaje = ''
     entregas_cliente = []
     if request.method == 'GET' and 'cliente' in request.GET:
         cliente = request.GET.get('cliente')
-        entregas_cliente = [e for e in entregas_globales if e['cliente'] == cliente]
+        entregas_cliente = Entrega.objects.filter(asignacion__equipo__cliente=cliente)
         if not entregas_cliente:
-            mensaje = 'los equipos de este cliente no han sido reportados aun'
+            mensaje = 'Los equipos de este cliente no han sido reportados aún.'
     return render(request, 'entrega/verificar.html', {
         'clientes': clientes,
         'entregas_cliente': entregas_cliente,
@@ -85,21 +52,25 @@ def comprobante(request):
     if not request.session.get('autenticado'):
         return redirect('inicio')
     cliente = request.GET.get('cliente')
-    equipo = request.GET.get('equipo')
+    equipo_id = request.GET.get('equipo')
     context = {}
-    if cliente and equipo:
-        entrega = next((e for e in entregas_globales if e['cliente'] == cliente and e['equipo'] == equipo), None)
-        evaluacion = next((ev for ev in evaluaciones_globales if ev['equipo'] == equipo), None)
-        if entrega and evaluacion:
-            context = {
-                'cliente': cliente,
-                'equipo': equipo,
-                'diagnostico': evaluacion['diagnostico'],
-                'solucion': evaluacion['solucion'],
-                'estado': entrega['estado']
-            }
-        else:
-            context = {'error': 'No se encontró la información'}
+    if cliente and equipo_id:
+        try:
+            equipo = Equipo.objects.get(id=equipo_id, cliente=cliente)
+            entrega = Entrega.objects.filter(asignacion__equipo=equipo).first()
+            evaluacion = Evaluacion.objects.filter(asignacion__equipo=equipo).first()
+            if entrega and evaluacion:
+                context = {
+                    'cliente': cliente,
+                    'equipo': equipo.tipo,
+                    'diagnostico': evaluacion.diagnostico,
+                    'solucion': evaluacion.solucion,
+                    'estado': entrega.estado
+                }
+            else:
+                context = {'error': 'No se encontró la información'}
+        except Equipo.DoesNotExist:
+            context = {'error': 'Equipo no encontrado'}
     else:
         context = {'error': 'Parámetros inválidos'}
     return render(request, 'entrega/comprobante.html', context)
