@@ -18,7 +18,7 @@
         <select name="asignacion" id="asignacion" class="form-select" required>
           <option value="" disabled selected>Seleccione una asignación</option>
           {% for asignacion in asignaciones %}
-            {% if asignacion.evaluacion %}
+            {% if asignacion.diagnostico %}
               <option value="{{ asignacion.id }}">
                 Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.tipo }} - {{ asignacion.equipo.cliente }}
               </option>
@@ -51,14 +51,14 @@
 
     <div class="card shadow-sm p-4">
       <h3 class="mb-3">Reportes Registrados</h3>
-      {% if entregas %}
+      {% if reportes %}
         <ul class="list-group list-group-flush">
-          {% for entrega in entregas %}
+          {% for reporte in reportes %}
             <li class="list-group-item">
-              <strong>Estudiante:</strong> {{ entrega.asignacion.estudiante.nombre }},
-              <strong>Equipo:</strong> {{ entrega.asignacion.equipo.tipo }} - {{ entrega.asignacion.equipo.cliente }},
-              <strong>Cliente:</strong> {{ entrega.asignacion.equipo.cliente }},
-              <strong>Estado:</strong> {{ entrega.estado }}
+              <strong>Estudiante:</strong> {{ reporte.asignacion.estudiante.nombre }},
+              <strong>Equipo:</strong> {{ reporte.asignacion.equipo.tipo }} - {{ reporte.asignacion.equipo.cliente }},
+              <strong>Cliente:</strong> {{ reporte.asignacion.equipo.cliente }},
+              <strong>Estado:</strong> {{ reporte.estado }}
             </li>
           {% endfor %}
         </ul>
