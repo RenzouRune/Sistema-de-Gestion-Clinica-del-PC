@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-body">
@@ -65,31 +65,21 @@
                         </tbody>
                     </table>
                 </div>
-
-                <div class="row justify-content-center mt-4">
-                    <div class="col-md-6">
-                        <div class="card shadow-sm bg-light">
-                            <div class="card-body text-center">
-                                <a href="{% url 'evaluar' %}" class="btn btn-success me-2">Realizar Diagnóstico</a>
-                                <a href="{% url 'listado_equipos' %}" class="btn btn-secondary">Volver</a>
-                            </div>
-                        </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">Acciones</h5>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'listado_equipos' %}" class="btn btn-secondary">Listado de Equipos</a>
+                        <a href="{% url 'crear_estudiante' %}" class="btn btn-primary">Crear Estudiante</a>
+                        <a href="{% url 'evaluar' %}" class="btn btn-success">Realizar Diagnóstico</a>
+                        <a href="{% url 'recepcion' %}" class="btn btn-info">Registro de Equipo</a>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
-<div class="row justify-content-center mt-4">
-    <div class="col-md-6">
-        <div class="card shadow-sm bg-light">
-            <div class="card-body text-center">
-                <a href="{% url 'evaluar' %}" class="btn btn-success me-2">Evaluar Diagnóstico</a>
-                <a href="{% url 'listado_equipos' %}" class="btn btn-secondary">Volver</a>
-            </div>
-        </div>
-    </div>
-</div>

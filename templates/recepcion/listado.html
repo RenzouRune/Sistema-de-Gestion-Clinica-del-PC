@@ -2,36 +2,49 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Listado de equipos recibidos</h2>
+    <div class="row">
+        <div class="col-md-9">
+            <h2 class="text-center mb-4">Listado de equipos recibidos</h2>
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-            <thead class="table-light">
-                <tr>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Detalle</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for equipo in equipos %}
-                <tr>
-                    <td>{{ equipo.cliente }}</td>
-                    <td>{{ equipo.tipo }}</td>
-                    <td>
-                        <a href="{% url 'detalle_equipo' equipo.cliente %}" class="btn btn-sm btn-outline-primary">
-                            Ver detalle
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="text-center mt-4">
-        <div class="card bg-white text-dark shadow-sm d-inline-block px-4 py-3">
-            <a href="{% url 'recepcion' %}" class="btn btn-primary me-2">Volver a Registro</a>
-            <a href="{% url 'asignar_estudiante' %}" class="btn btn-success">Asignar Estudiante</a>
+            {% if mensaje %}
+                <div class="alert alert-success text-center" role="alert">
+                    {{ mensaje }}
+                </div>
+            {% endif %}
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for equipo in equipos %}
+                        <tr>
+                            <td>{{ equipo.cliente }}</td>
+                            <td>{{ equipo.tipo }}</td>
+                            <td>
+                                <a href="{% url 'detalle_equipo' equipo.cliente %}" class="btn btn-sm btn-outline-primary">
+                                    Ver detalle
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="sidebar bg-light p-3 rounded shadow-sm">
+                <h5 class="mb-3 text-dark">Acciones</h5>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'recepcion' %}" class="btn btn-primary">Registro de Equipos</a>
+                    <a href="{% url 'asignar_estudiante' %}" class="btn btn-success">Asignar Estudiante</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
