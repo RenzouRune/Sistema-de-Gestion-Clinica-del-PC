@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Estudiante, Asignacion, Evaluacion
+from .models import Estudiante, Asignacion, Diagnostico
 from recepcion.models import Equipo
 
 def asignar(request):
@@ -41,10 +41,10 @@ def evaluar(request):
         asignacion_id = request.POST.get('asignacion')
         if diagnostico and solucion and asignacion_id:
             asignacion = Asignacion.objects.get(id=asignacion_id)
-            if Evaluacion.objects.filter(asignacion=asignacion).exists():
+            if Diagnostico.objects.filter(asignacion=asignacion).exists():
                 mensaje = 'Este equipo ya tiene un diagnóstico.'
             else:
-                Evaluacion.objects.create(asignacion=asignacion, diagnostico=diagnostico, solucion=solucion)
+                Diagnostico.objects.create(asignacion=asignacion, diagnostico=diagnostico, solucion=solucion)
                 mensaje = 'Diagnóstico y solución registrados con éxito.'
         else:
             mensaje = 'Por favor, complete todos los campos y seleccione una asignación.'
@@ -54,8 +54,8 @@ def evaluar(request):
 def lista_diagnosticos(request):
     if not request.session.get('autenticado'):
         return redirect('inicio')
-    evaluaciones = Evaluacion.objects.all()
-    return render(request, 'diagnostico/lista_de_diagnosticos.html', {'evaluaciones': evaluaciones})
+    diagnosticos = Diagnostico.objects.all()
+    return render(request, 'diagnostico/lista_de_diagnosticos.html', {'diagnosticos': diagnosticos})
 
 def crear_estudiante(request):
     if not request.session.get('autenticado'):

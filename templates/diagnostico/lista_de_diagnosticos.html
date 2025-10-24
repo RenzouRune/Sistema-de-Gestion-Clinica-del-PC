@@ -6,7 +6,7 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Lista de Diagnósticos Realizados</h2>
 
-    {% if evaluaciones %}
+    {% if diagnosticos %}
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead class="table-light">
@@ -18,12 +18,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for eval in evaluaciones %}
+                    {% for diag in diagnosticos %}
                         <tr>
-                            <td>{{ eval.asignacion.estudiante.nombre }}</td>
-                            <td>{{ eval.asignacion.equipo.tipo }} - {{ eval.asignacion.equipo.cliente }}</td>
-                            <td>{{ eval.diagnostico }}</td>
-                            <td>{{ eval.solucion }}</td>
+                            <td>{{ diag.asignacion.estudiante.nombre }}</td>
+                            <td>{{ diag.asignacion.equipo.tipo }} - {{ diag.asignacion.equipo.cliente }}</td>
+                            <td>{{ diag.diagnostico }}</td>
+                            <td>{{ diag.solucion }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

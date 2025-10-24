@@ -16,10 +16,10 @@ class Asignacion(models.Model):
     def __str__(self):
         return f"{self.equipo} asignado a {self.estudiante}"
 
-class Evaluacion(models.Model):
+class Diagnostico(models.Model):
     asignacion = models.OneToOneField(Asignacion, on_delete=models.CASCADE)
     diagnostico = models.TextField()
     solucion = models.TextField()
 
     def __str__(self):
-        return f"Evaluación de {self.asignacion}"
+        return f"Diagnóstico de {self.asignacion}"
