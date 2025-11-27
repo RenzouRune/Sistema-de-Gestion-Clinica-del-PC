@@ -13,12 +13,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='entrega',
+            model_name='reporte',
             name='asignacion',
             field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='diagnostico.asignacion'),
         ),
         migrations.AlterField(
-            model_name='entrega',
+            model_name='reporte',
             name='estado',
             field=models.CharField(choices=[('Pendiente', 'Pendiente'), ('Entregado', 'Entregado')], default='Pendiente', max_length=20),
         ),

@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             name='fecha_asignacion',
         ),
         migrations.RemoveField(
-            model_name='evaluacion',
+            model_name='diagnostico',
             name='fecha_evaluacion',
         ),
         migrations.AlterField(
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='diagnostico.estudiante'),
         ),
         migrations.AlterField(
-            model_name='evaluacion',
+            model_name='diagnostico',
             name='asignacion',
             field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='diagnostico.asignacion'),
         ),

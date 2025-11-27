@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Entrega',
+            name='Reporte',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('estado', models.CharField(choices=[('Pendiente', 'Pendiente'), ('Entregado', 'Entregado')], max_length=20)),

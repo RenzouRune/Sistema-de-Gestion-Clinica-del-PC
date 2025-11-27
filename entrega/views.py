@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from .models import Entrega
-from diagnostico.models import Asignacion, Evaluacion
+from .models import Reporte
+from diagnostico.models import Asignacion, Diagnostico
 from recepcion.models import Equipo
 
 def reporte(request):
@@ -12,18 +12,18 @@ def reporte(request):
         estado = request.POST.get('estado')
         if asignacion_id and estado:
             asignacion = Asignacion.objects.get(id=asignacion_id)
-            if not Evaluacion.objects.filter(asignacion=asignacion).exists():
+            if not Diagnostico.objects.filter(asignacion=asignacion).exists():
                 mensaje = 'La asignación seleccionada no tiene un diagnóstico realizado.'
-            elif Entrega.objects.filter(asignacion=asignacion).exists():
+            elif Reporte.objects.filter(asignacion=asignacion).exists():
                 mensaje = 'Ya existe un reporte para esta asignación.'
             else:
-                Entrega.objects.create(asignacion=asignacion, estado=estado)
+                Reporte.objects.create(asignacion=asignacion, estado=estado)
                 mensaje = 'Reporte registrado con éxito.'
         else:
             mensaje = 'Por favor, seleccione una asignación y un estado.'
     asignaciones = Asignacion.objects.all()
-    evaluaciones = Evaluacion.objects.all()
-    entregas = Entrega.objects.all()
+    evaluaciones = Diagnostico.objects.all()
+    entregas = Reporte.objects.all()
     return render(request, 'entrega/reporte.html', {
         'asignaciones': asignaciones,
         'evaluaciones': evaluaciones,
@@ -39,7 +39,7 @@ def verificar_entregas(request):
     entregas_cliente = []
     if request.method == 'GET' and 'cliente' in request.GET:
         cliente = request.GET.get('cliente')
-        entregas_cliente = Entrega.objects.filter(asignacion__equipo__cliente=cliente)
+        entregas_cliente = Reporte.objects.filter(asignacion__equipo__cliente=cliente)
         if not entregas_cliente:
             mensaje = 'Los equipos de este cliente no han sido reportados aún.'
     return render(request, 'entrega/verificar.html', {
@@ -57,8 +57,8 @@ def comprobante(request):
     if cliente and equipo_id:
         try:
             equipo = Equipo.objects.get(id=equipo_id, cliente=cliente)
-            entrega = Entrega.objects.filter(asignacion__equipo=equipo).first()
-            evaluacion = Evaluacion.objects.filter(asignacion__equipo=equipo).first()
+            entrega = Reporte.objects.filter(asignacion__equipo=equipo).first()
+            evaluacion = Diagnostico.objects.filter(asignacion__equipo=equipo).first()
             if entrega and evaluacion:
                 context = {
                     'cliente': cliente,
