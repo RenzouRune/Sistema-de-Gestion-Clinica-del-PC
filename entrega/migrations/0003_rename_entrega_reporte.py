@@ -10,9 +10,4 @@ class Migration(migrations.Migration):
         ('entrega', '0002_alter_entrega_asignacion_alter_entrega_estado'),
     ]
 
-    operations = [
-        migrations.RenameModel(
-            old_name='Entrega',
-            new_name='Reporte',
-        ),
-    ]
+    

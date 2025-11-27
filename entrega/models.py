@@ -13,4 +13,4 @@ class Reporte(models.Model):
     fecha_entrega = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Reporte de {self.asignacion} - {self.estado}"
+        return f"Reporte de {self.diagnostico} - {self.estado}"

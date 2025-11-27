@@ -55,9 +55,9 @@
         <ul class="list-group list-group-flush">
           {% for reporte in reportes %}
             <li class="list-group-item">
-              <strong>Estudiante:</strong> {{ reporte.asignacion.estudiante.nombre }},
-              <strong>Equipo:</strong> {{ reporte.asignacion.equipo.tipo }} - {{ reporte.asignacion.equipo.cliente }},
-              <strong>Cliente:</strong> {{ reporte.asignacion.equipo.cliente }},
+              <strong>Estudiante:</strong> {{ reporte.diagnostico.asignacion.estudiante.nombre }},
+              <strong>Equipo:</strong> {{ reporte.diagnostico.asignacion.equipo.tipo }} - {{ reporte.diagnostico.asignacion.equipo.cliente }},
+              <strong>Cliente:</strong> {{ reporte.diagnostico.asignacion.equipo.cliente }},
               <strong>Estado:</strong> {{ reporte.estado }}
             </li>
           {% endfor %}
