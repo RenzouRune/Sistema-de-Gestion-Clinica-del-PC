@@ -1,5 +1,5 @@
 from django.db import models
-from diagnostico.models import Asignacion
+from diagnostico.models import Diagnostico
 
 # Create your models here.
 
@@ -8,7 +8,7 @@ class Reporte(models.Model):
         ('Pendiente', 'Pendiente'),
         ('Entregado', 'Entregado'),
     ]
-    asignacion = models.OneToOneField(Asignacion, on_delete=models.CASCADE)
+    diagnostico = models.OneToOneField(Diagnostico, on_delete=models.CASCADE, null=True, blank=True)
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='Pendiente')
     fecha_entrega = models.DateTimeField(auto_now_add=True)
 

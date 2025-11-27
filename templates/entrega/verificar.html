@@ -26,14 +26,14 @@
       </div>
     </form>
 
-    {% if entregas_cliente %}
+    {% if reportes_cliente %}
       <div class="card shadow-sm p-4">
         <h4 class="mb-3">Equipos y Estado del Cliente <strong>{{ request.GET.cliente }}</strong></h4>
         <ul class="list-group list-group-flush">
-          {% for entrega in entregas_cliente %}
+          {% for reporte in reportes_cliente %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span>Equipo: {{ entrega.asignacion.equipo.tipo }}, Estado: {{ entrega.estado }}</span>
-              <a href="{% url 'comprobante' %}?cliente={{ request.GET.cliente }}&equipo={{ entrega.asignacion.equipo.id }}" class="btn btn-sm btn-outline-primary">
+              <span>Equipo: {{ reporte.asignacion.equipo.tipo }}, Estado: {{ reporte.estado }}</span>
+              <a href="{% url 'comprobante' %}?cliente={{ request.GET.cliente }}&equipo={{ reporte.asignacion.equipo.id }}" class="btn btn-sm btn-outline-primary">
                 Ver Comprobante
               </a>
             </li>

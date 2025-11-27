@@ -26,8 +26,8 @@ def reporte(request):
     entregas = Reporte.objects.all()
     return render(request, 'entrega/reporte.html', {
         'asignaciones': asignaciones,
-        'evaluaciones': evaluaciones,
-        'entregas': entregas,
+        'diagnosticos': diagnosticos,
+        'reportes': reportes,
         'mensaje': mensaje
     })
 
@@ -36,7 +36,7 @@ def verificar_entregas(request):
         return redirect('inicio')
     clientes = Equipo.objects.values_list('cliente', flat=True).distinct()
     mensaje = ''
-    entregas_cliente = []
+    reportes_cliente = []
     if request.method == 'GET' and 'cliente' in request.GET:
         cliente = request.GET.get('cliente')
         entregas_cliente = Reporte.objects.filter(asignacion__equipo__cliente=cliente)
@@ -44,7 +44,7 @@ def verificar_entregas(request):
             mensaje = 'Los equipos de este cliente no han sido reportados aún.'
     return render(request, 'entrega/verificar.html', {
         'clientes': clientes,
-        'entregas_cliente': entregas_cliente,
+        'reportes_cliente': reportes_cliente,
         'mensaje': mensaje
     })
 
@@ -63,9 +63,9 @@ def comprobante(request):
                 context = {
                     'cliente': cliente,
                     'equipo': equipo.tipo,
-                    'diagnostico': evaluacion.diagnostico,
-                    'solucion': evaluacion.solucion,
-                    'estado': entrega.estado
+                    'diagnostico': diagnostico.diagnostico,
+                    'solucion': diagnostico.solucion,
+                    'estado': reporte.estado
                 }
             else:
                 context = {'error': 'No se encontró la información'}

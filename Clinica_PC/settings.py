@@ -29,9 +29,18 @@ SECRET_KEY = 'django-insecure-ee@zsq%f-$&%%)^!yp0@y9u&#xzd&i236n!atn7+c_nngvzltq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
+RENDER_ENV = os.environ.get("RENDER")
 
+if RENDER_ENV:
+    # Usar el dominio que Render asigna
+    RENDER_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+    ALLOWED_HOSTS = [RENDER_HOSTNAME]
+    CSRF_TRUSTED_ORIGINS = [f"https://{RENDER_HOSTNAME}"]
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    CSRF_TRUSTED_ORIGINS = []
+    
 # Application definition
 
 INSTALLED_APPS = [
