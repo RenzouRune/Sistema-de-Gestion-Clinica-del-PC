@@ -36,3 +36,10 @@ def editar_equipo(request, id):
         equipo.save()
         return redirect('/recepcion/listado/?mensaje=Equipo actualizado exitosamente')
     return render(request, 'recepcion/editar_equipo.html', {'equipo': equipo})
+
+def delete_equipo(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    equipo = get_object_or_404(Equipo, id=id)
+    equipo.delete()
+    return redirect('/recepcion/listado/?mensaje=Equipo eliminado exitosamente')

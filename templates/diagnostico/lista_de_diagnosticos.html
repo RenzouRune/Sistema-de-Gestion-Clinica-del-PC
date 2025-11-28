@@ -28,6 +28,7 @@
                             <td>{{ diag.solucion }}</td>
                             <td>
                                 <a href="{% url 'editar_diagnostico' diag.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                                <a href="{% url 'delete_diagnostico' diag.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este diagnóstico? Esto eliminará todos los reportes relacionados.')">Eliminar</a>
                             </td>
                         </tr>
                     {% endfor %}
