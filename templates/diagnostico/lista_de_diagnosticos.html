@@ -26,6 +26,9 @@
                             <td>{{ diag.asignacion.equipo.cliente }}</td>
                             <td>{{ diag.diagnostico }}</td>
                             <td>{{ diag.solucion }}</td>
+                            <td>
+                                <a href="{% url 'editar_diagnostico' diag.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import Reporte
 from diagnostico.models import Asignacion, Diagnostico
 from recepcion.models import Equipo
@@ -75,3 +75,15 @@ def comprobante(request):
     else:
         context = {'error': 'Parámetros inválidos'}
     return render(request, 'entrega/comprobante.html', context)
+
+def editar_reporte(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('inicio')
+    reporte = get_object_or_404(Reporte, id=id)
+    if request.method == 'POST':
+        estado = request.POST.get('estado')
+        if estado:
+            reporte.estado = estado
+            reporte.save()
+            return redirect('/entrega/reporte/?mensaje=Reporte actualizado exitosamente')
+    return render(request, 'entrega/editar_reporte.html', {'reporte': reporte})

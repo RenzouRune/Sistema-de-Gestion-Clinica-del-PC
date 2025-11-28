@@ -62,6 +62,9 @@
                                     <td>{{ asignacion.estudiante.nombre }}</td>
                                     <td>{{ asignacion.equipo.tipo }}</td>
                                     <td>{{ asignacion.equipo.cliente }}</td>
+                                    <td>
+                                        <a href="{% url 'editar_asignacion' asignacion.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

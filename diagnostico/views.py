@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Estudiante, Asignacion, Diagnostico
 from recepcion.models import Equipo
 
@@ -78,3 +78,40 @@ def listar_estudiantes(request):
         return redirect('/')
     estudiantes = Estudiante.objects.all()
     return render(request, 'diagnostico/listar_estudiantes.html', {'estudiantes': estudiantes})
+
+def editar_estudiante(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    estudiante = get_object_or_404(Estudiante, id=id)
+    if request.method == 'POST':
+        estudiante.nombre = request.POST.get('nombre')
+        estudiante.save()
+        return redirect('/diagnostico/diagnostico/listar_estudiantes/?mensaje=Estudiante actualizado exitosamente')
+    return render(request, 'diagnostico/editar_estudiante.html', {'estudiante': estudiante})
+
+def editar_asignacion(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    asignacion = get_object_or_404(Asignacion, id=id)
+    estudiantes = Estudiante.objects.all()
+    equipos = Equipo.objects.all()
+    if request.method == 'POST':
+        estudiante_id = request.POST.get('estudiante')
+        equipo_id = request.POST.get('equipo')
+        if estudiante_id and equipo_id:
+            asignacion.estudiante = Estudiante.objects.get(id=estudiante_id)
+            asignacion.equipo = Equipo.objects.get(id=equipo_id)
+            asignacion.save()
+            return redirect('/diagnostico/diagnostico/asignar/?mensaje=Asignación actualizada exitosamente')
+    return render(request, 'diagnostico/editar_asignacion.html', {'asignacion': asignacion, 'estudiantes': estudiantes, 'equipos': equipos})
+
+def editar_diagnostico(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    diagnostico = get_object_or_404(Diagnostico, id=id)
+    if request.method == 'POST':
+        diagnostico.diagnostico = request.POST.get('diagnostico')
+        diagnostico.solucion = request.POST.get('solucion')
+        diagnostico.save()
+        return redirect('/diagnostico/diagnostico/lista/?mensaje=Diagnóstico actualizado exitosamente')
+    return render(request, 'diagnostico/editar_diagnostico.html', {'diagnostico': diagnostico})

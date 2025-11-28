@@ -30,6 +30,9 @@
                                 <a href="{% url 'detalle_equipo' equipo.cliente %}" class="btn btn-sm btn-outline-primary">
                                     Ver detalle
                                 </a>
+                                <a href="{% url 'editar_equipo' equipo.id %}" class="btn btn-sm btn-outline-secondary">
+                                    Editar
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}

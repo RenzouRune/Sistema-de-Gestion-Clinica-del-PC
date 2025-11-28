@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Equipo
 
 def recepcion_view(request):
@@ -24,3 +24,15 @@ def detalle_equipo(request, nombre):
         return redirect('/')
     equipo = Equipo.objects.filter(cliente=nombre).first()
     return render(request, 'recepcion/detalle.html', {'equipo': equipo})
+
+def editar_equipo(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    equipo = get_object_or_404(Equipo, id=id)
+    if request.method == 'POST':
+        equipo.cliente = request.POST.get('cliente')
+        equipo.tipo = request.POST.get('tipo')
+        equipo.problema = request.POST.get('problema')
+        equipo.save()
+        return redirect('/recepcion/listado/?mensaje=Equipo actualizado exitosamente')
+    return render(request, 'recepcion/editar_equipo.html', {'equipo': equipo})
