@@ -87,3 +87,10 @@ def editar_reporte(request, id):
             reporte.save()
             return redirect('/entrega/reporte/?mensaje=Reporte actualizado exitosamente')
     return render(request, 'entrega/editar_reporte.html', {'reporte': reporte})
+
+def delete_reporte(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('inicio')
+    reporte = get_object_or_404(Reporte, id=id)
+    reporte.delete()
+    return redirect('/entrega/reporte/?mensaje=Reporte eliminado exitosamente')

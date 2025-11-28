@@ -63,6 +63,7 @@
                   <strong>Estado:</strong> {{ reporte.estado }}
                 </span>
                 <a href="{% url 'editar_reporte' reporte.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                <a href="{% url 'delete_reporte' reporte.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este reporte?')">Eliminar</a>
               </li>
             {% endif %}
           {% endfor %}

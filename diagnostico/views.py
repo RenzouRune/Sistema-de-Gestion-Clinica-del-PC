@@ -115,3 +115,24 @@ def editar_diagnostico(request, id):
         diagnostico.save()
         return redirect('/diagnostico/diagnostico/lista/?mensaje=Diagnóstico actualizado exitosamente')
     return render(request, 'diagnostico/editar_diagnostico.html', {'diagnostico': diagnostico})
+
+def delete_estudiante(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    estudiante = get_object_or_404(Estudiante, id=id)
+    estudiante.delete()
+    return redirect('/diagnostico/diagnostico/listar_estudiantes/?mensaje=Estudiante eliminado exitosamente')
+
+def delete_asignacion(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    asignacion = get_object_or_404(Asignacion, id=id)
+    asignacion.delete()
+    return redirect('/diagnostico/diagnostico/asignar/?mensaje=Asignación eliminada exitosamente')
+
+def delete_diagnostico(request, id):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+    diagnostico = get_object_or_404(Diagnostico, id=id)
+    diagnostico.delete()
+    return redirect('/diagnostico/diagnostico/lista/?mensaje=Diagnóstico eliminado exitosamente')
