@@ -17,10 +17,80 @@
     ></script>
     {% block extra_head %}{% endblock extra_head %}
   </head>
-  <body class="bg-primary text-white">
-    <div class="container mt-4">
+  <body class="bg-primary text-white d-flex">
+    {% block left_navbar %}
+  
+    <nav class="bg-dark text-white" style="width: 250px; height: 100vh; position: fixed; left: 0; top: 0; overflow-y: auto;">
+      <div class="p-3">
+        <h5>Clinica PC</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'recepcion' %}">Recepción</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'lista_diagnosticos' %}">Diagnóstico</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'reporte' %}">Entrega</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'logout' %}">Cerrar sesión</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    {% endblock left_navbar %}
+
+    {% block right_navbar %}
+    <nav class="bg-secondary text-white" style="width: 250px; height: 100vh; position: fixed; right: 0; top: 0; overflow-y: auto;">
+      <div class="p-3">
+        <h5>Opciones</h5>
+        {% if is_recepcion %}
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'recepcion' %}">Registrar Equipo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'listado_equipos' %}">Listado de Equipos</a>
+          </li>
+        </ul>
+        {% endif %}
+        {% if is_entrega %}
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="">Perfil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="">Configuración</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="">Ayuda</a>
+          </li>
+        </ul>
+        {% endif %}
+        {% if is_diagnostico %}
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="">Perfil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="">Configuración</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="">Ayuda</a>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+    </nav>
+    {% endblock right_navbar %}
+
+    <!-- Contenido central -->
+    <div class="flex-grow-1" style="margin-left: 250px; margin-right: 250px;">
+      <div class="container mt-4">
         {% block content %}
         {% endblock content %}
+      </div>
     </div>
   </body>
 </html>
