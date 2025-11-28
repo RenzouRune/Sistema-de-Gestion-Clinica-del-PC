@@ -9,10 +9,3 @@ class Migration(migrations.Migration):
         ('diagnostico', '0003_rename_evaluacion_diagnostico'),
         ('entrega', '0002_alter_entrega_asignacion_alter_entrega_estado'),
     ]
-
-    operations = [
-        migrations.RenameModel(
-            old_name='Entrega',
-            new_name='Reporte',
-        ),
-    ]

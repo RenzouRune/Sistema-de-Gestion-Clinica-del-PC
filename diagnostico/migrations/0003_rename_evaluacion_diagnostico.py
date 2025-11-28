@@ -9,9 +9,3 @@ class Migration(migrations.Migration):
         ('diagnostico', '0002_remove_asignacion_fecha_asignacion_and_more'),
     ]
 
-    operations = [
-        migrations.RenameModel(
-            old_name='Evaluacion',
-            new_name='Diagnostico',
-        ),
-    ]

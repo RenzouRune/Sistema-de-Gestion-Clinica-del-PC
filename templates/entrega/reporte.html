@@ -20,7 +20,7 @@
           {% for asignacion in asignaciones %}
             {% if asignacion.diagnostico %}
               <option value="{{ asignacion.id }}">
-                Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.tipo }} - {{ asignacion.equipo.cliente }}
+                Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.tipo }}
               </option>
             {% endif %}
           {% endfor %}
@@ -54,12 +54,14 @@
       {% if reportes %}
         <ul class="list-group list-group-flush">
           {% for reporte in reportes %}
-            <li class="list-group-item">
-              <strong>Estudiante:</strong> {{ reporte.asignacion.estudiante.nombre }},
-              <strong>Equipo:</strong> {{ reporte.asignacion.equipo.tipo }} - {{ reporte.asignacion.equipo.cliente }},
-              <strong>Cliente:</strong> {{ reporte.asignacion.equipo.cliente }},
-              <strong>Estado:</strong> {{ reporte.estado }}
-            </li>
+            {% if reporte.diagnostico %}
+              <li class="list-group-item">
+                <strong>Estudiante:</strong> {{ reporte.diagnostico.asignacion.estudiante.nombre }},
+                <strong>Equipo:</strong> {{ reporte.diagnostico.asignacion.equipo.tipo }},
+                <strong>Cliente:</strong> {{ reporte.diagnostico.asignacion.equipo.cliente }},
+                <strong>Estado:</strong> {{ reporte.estado }}
+              </li>
+            {% endif %}
           {% endfor %}
         </ul>
       {% else %}

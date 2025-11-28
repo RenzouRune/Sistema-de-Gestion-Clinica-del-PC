@@ -33,7 +33,7 @@
                             <select name="equipo" id="equipo" class="form-select" required>
                                 <option value="" selected>-- Seleccionar Equipo --</option>
                                 {% for equipo in equipos %}
-                                    <option value="{{ equipo.id }}">{{ equipo.tipo }} - {{ equipo.cliente }}</option>
+                                    <option value="{{ equipo.id }}">{{ equipo.tipo }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -53,13 +53,15 @@
                             <tr>
                                 <th>Estudiante</th>
                                 <th>Equipo</th>
+                                <th>Cliente</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for asignacion in asignaciones %}
                                 <tr>
                                     <td>{{ asignacion.estudiante.nombre }}</td>
-                                    <td>{{ asignacion.equipo.tipo }} - {{ asignacion.equipo.cliente }}</td>
+                                    <td>{{ asignacion.equipo.tipo }}</td>
+                                    <td>{{ asignacion.equipo.cliente }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

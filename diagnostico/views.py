@@ -55,7 +55,7 @@ def lista_diagnosticos(request):
     if not request.session.get('autenticado'):
         return redirect('inicio')
     evaluaciones = Diagnostico.objects.all()
-    return render(request, 'diagnostico/lista_de_diagnosticos.html', {'evaluaciones': evaluaciones})
+    return render(request, 'diagnostico/lista_de_diagnosticos.html', {'diagnosticos': evaluaciones})
 
 def crear_estudiante(request):
     if not request.session.get('autenticado'):

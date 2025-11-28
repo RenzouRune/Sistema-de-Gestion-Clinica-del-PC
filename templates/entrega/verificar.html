@@ -31,12 +31,14 @@
         <h4 class="mb-3">Equipos y Estado del Cliente <strong>{{ request.GET.cliente }}</strong></h4>
         <ul class="list-group list-group-flush">
           {% for reporte in reportes_cliente %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span>Equipo: {{ reporte.asignacion.equipo.tipo }}, Estado: {{ reporte.estado }}</span>
-              <a href="{% url 'comprobante' %}?cliente={{ request.GET.cliente }}&equipo={{ reporte.asignacion.equipo.id }}" class="btn btn-sm btn-outline-primary">
-                Ver Comprobante
-              </a>
-            </li>
+            {% if reporte.diagnostico %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>Equipo: {{ reporte.diagnostico.asignacion.equipo.tipo }}, Estado: {{ reporte.estado }}</span>
+                <a href="{% url 'comprobante' %}?cliente={{ request.GET.cliente }}&equipo={{ reporte.diagnostico.asignacion.equipo.id }}" class="btn btn-sm btn-outline-primary">
+                  Ver Comprobante
+                </a>
+              </li>
+            {% endif %}
           {% endfor %}
         </ul>
       </div>
