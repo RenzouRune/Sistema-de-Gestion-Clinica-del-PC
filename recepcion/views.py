@@ -10,20 +10,20 @@ def recepcion_view(request):
         problema = request.POST.get('problema')
         Equipo.objects.create(cliente=cliente, tipo=tipo, problema=problema)
         return redirect('/recepcion/listado/?mensaje=Equipo registrado exitosamente')
-    return render(request, 'recepcion/recepcion.html')
+    return render(request, 'recepcion/recepcion.html',{ "is_recepcion" :True })
 
 def listado_equipos(request):
     if not request.session.get('autenticado'):
         return redirect('/')
     equipos = Equipo.objects.all()
     mensaje = request.GET.get('mensaje')
-    return render(request, 'recepcion/listado.html', {'equipos': equipos, 'mensaje': mensaje})
+    return render(request, 'recepcion/listado.html', {'equipos': equipos, 'mensaje': mensaje},{ "is_recepcion" :True })
 
 def detalle_equipo(request, nombre):
     if not request.session.get('autenticado'):
         return redirect('/')
     equipo = Equipo.objects.filter(cliente=nombre).first()
-    return render(request, 'recepcion/detalle.html', {'equipo': equipo})
+    return render(request, 'recepcion/detalle.html', {'equipo': equipo},{ "is_recepcion" :True })
 
 def editar_equipo(request, id):
     if not request.session.get('autenticado'):
