@@ -25,7 +25,7 @@
                                 <option value="" disabled selected>Seleccione una asignación</option>
                                 {% for asignacion in asignaciones %}
                                     <option value="{{ asignacion.id }}">
-                                        Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.tipo }} - {{ asignacion.equipo.cliente }}
+                                        Estudiante: {{ asignacion.estudiante.nombre }}, Equipo: {{ asignacion.equipo.tipo }}
                                     </option>
                                 {% endfor %}
                             </select>

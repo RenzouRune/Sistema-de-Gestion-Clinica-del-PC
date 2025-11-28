@@ -13,6 +13,7 @@
                     <tr>
                         <th>Estudiante</th>
                         <th>Equipo</th>
+                        <th>Cliente</th>
                         <th>Diagnóstico</th>
                         <th>Solución</th>
                     </tr>
@@ -21,7 +22,8 @@
                     {% for diag in diagnosticos %}
                         <tr>
                             <td>{{ diag.asignacion.estudiante.nombre }}</td>
-                            <td>{{ diag.asignacion.equipo.tipo }} - {{ diag.asignacion.equipo.cliente }}</td>
+                            <td>{{ diag.asignacion.equipo.tipo }}</td>
+                            <td>{{ diag.asignacion.equipo.cliente }}</td>
                             <td>{{ diag.diagnostico }}</td>
                             <td>{{ diag.solucion }}</td>
                         </tr>

@@ -12,12 +12,13 @@ def reporte(request):
         estado = request.POST.get('estado')
         if asignacion_id and estado:
             asignacion = Asignacion.objects.get(id=asignacion_id)
-            if not Diagnostico.objects.filter(asignacion=asignacion).exists():
+            diagnostico = Diagnostico.objects.filter(asignacion=asignacion).first()
+            if not diagnostico:
                 mensaje = 'La asignación seleccionada no tiene un diagnóstico realizado.'
-            elif Reporte.objects.filter(asignacion=asignacion).exists():
+            elif Reporte.objects.filter(diagnostico=diagnostico).exists():
                 mensaje = 'Ya existe un reporte para esta asignación.'
             else:
-                Reporte.objects.create(asignacion=asignacion, estado=estado)
+                Reporte.objects.create(diagnostico=diagnostico, estado=estado)
                 mensaje = 'Reporte registrado con éxito.'
         else:
             mensaje = 'Por favor, seleccione una asignación y un estado.'
@@ -26,8 +27,8 @@ def reporte(request):
     entregas = Reporte.objects.all()
     return render(request, 'entrega/reporte.html', {
         'asignaciones': asignaciones,
-        'diagnosticos': diagnosticos,
-        'reportes': reportes,
+        'diagnosticos': evaluaciones,
+        'reportes': entregas,
         'mensaje': mensaje
     })
 
@@ -39,8 +40,8 @@ def verificar_entregas(request):
     reportes_cliente = []
     if request.method == 'GET' and 'cliente' in request.GET:
         cliente = request.GET.get('cliente')
-        entregas_cliente = Reporte.objects.filter(asignacion__equipo__cliente=cliente)
-        if not entregas_cliente:
+        reportes_cliente = Reporte.objects.filter(diagnostico__asignacion__equipo__cliente=cliente)
+        if not reportes_cliente:
             mensaje = 'Los equipos de este cliente no han sido reportados aún.'
     return render(request, 'entrega/verificar.html', {
         'clientes': clientes,
@@ -57,15 +58,15 @@ def comprobante(request):
     if cliente and equipo_id:
         try:
             equipo = Equipo.objects.get(id=equipo_id, cliente=cliente)
-            entrega = Reporte.objects.filter(asignacion__equipo=equipo).first()
+            entrega = Reporte.objects.filter(diagnostico__asignacion__equipo=equipo).first()
             evaluacion = Diagnostico.objects.filter(asignacion__equipo=equipo).first()
             if entrega and evaluacion:
                 context = {
                     'cliente': cliente,
                     'equipo': equipo.tipo,
-                    'diagnostico': diagnostico.diagnostico,
-                    'solucion': diagnostico.solucion,
-                    'estado': reporte.estado
+                    'diagnostico': evaluacion.diagnostico,
+                    'solucion': evaluacion.solucion,
+                    'estado': entrega.estado
                 }
             else:
                 context = {'error': 'No se encontró la información'}
