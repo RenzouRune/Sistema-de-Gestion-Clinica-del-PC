@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Asignación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Editar Asignación</h2>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="estudiante" class="form-label">Estudiante</label>
+                            <select name="estudiante" id="estudiante" class="form-select" required>
+                                <option value="" selected>-- Seleccionar Estudiante --</option>
+                                {% for estudiante in estudiantes %}
+                                    <option value="{{ estudiante.id }}" {% if estudiante.id == asignacion.estudiante.id %}selected{% endif %}>{{ estudiante.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="equipo" class="form-label">Equipo</label>
+                            <select name="equipo" id="equipo" class="form-select" required>
+                                <option value="" selected>-- Seleccionar Equipo --</option>
+                                {% for equipo in equipos %}
+                                    <option value="{{ equipo.id }}" {% if equipo.id == asignacion.equipo.id %}selected{% endif %}>{{ equipo.tipo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Actualizar Asignación</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

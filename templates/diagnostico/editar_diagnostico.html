@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Diagnóstico{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Editar Diagnóstico</h2>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="diagnostico" class="form-label">Diagnóstico</label>
+                            <textarea name="diagnostico" id="diagnostico" class="form-control" rows="4" required>{{ diagnostico.diagnostico }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="solucion" class="form-label">Solución</label>
+                            <textarea name="solucion" id="solucion" class="form-control" rows="4" required>{{ diagnostico.solucion }}</textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Actualizar Diagnóstico</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,7 +11,10 @@
                     {% if estudiantes %}
                         <ul class="list-group">
                             {% for estudiante in estudiantes %}
-                                <li class="list-group-item">{{ estudiante.nombre }}</li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ estudiante.nombre }}
+                                    <a href="{% url 'editar_estudiante' estudiante.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                                </li>
                             {% endfor %}
                         </ul>
                     {% else %}

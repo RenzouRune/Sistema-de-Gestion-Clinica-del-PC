@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Equipo{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Editar Equipo</h2>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="cliente" class="form-label">Cliente</label>
+                            <input type="text" name="cliente" id="cliente" class="form-control" value="{{ equipo.cliente }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tipo" class="form-label">Tipo</label>
+                            <input type="text" name="tipo" id="tipo" class="form-control" value="{{ equipo.tipo }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="problema" class="form-label">Problema</label>
+                            <textarea name="problema" id="problema" class="form-control" rows="4" required>{{ equipo.problema }}</textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Actualizar Equipo</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
