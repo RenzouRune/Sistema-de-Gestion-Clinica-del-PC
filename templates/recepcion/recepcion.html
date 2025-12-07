@@ -3,64 +3,37 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Registrar equipo</h2>
 
-        <div class="col-md-8">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Registrar equipo</h2>
-
-                    {% if mensaje %}
-                        <div class="alert alert-success text-center" role="alert">
-                            {{ mensaje }}
-                        </div>
-                    {% endif %}
-
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="cliente" class="form-label">Nombre del cliente</label>
-                            <input type="text" class="form-control" id="cliente" name="cliente" placeholder="Ej. Juan Pérez" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="tipo" class="form-label">Tipo de equipo</label>
-                            <input type="text" class="form-control" id="tipo" name="tipo" placeholder="Ej. Laptop, PC, Tablet" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="problema" class="form-label">Problema informado</label>
-                            <input type="text" class="form-control" id="problema" name="problema" placeholder="Ej. No enciende, pantalla rota" required>
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Registrar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h5 class="card-title text-center mb-3">¿Qué deseas hacer?</h5>
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'listado_equipos' %}" class="btn btn-outline-secondary">Ver listado de equipos</a>
-                        <a href="{% url 'crear_estudiante' %}" class="btn btn-outline-primary">Crear Estudiante</a>
-                        <a href="{% url 'asignar_estudiante' %}" class="btn btn-outline-warning">Asignar Estudiante</a>
-                        <a href="{% url 'evaluar' %}" class="btn btn-outline-success me-2">Realizar Diagnóstico</a>
-                        <a href="{% url 'reporte' %}" class="btn btn-outline-info">Ir a Reporte</a>
-                        <a href="{% url 'verificar_entregas' %}" class="btn btn-outline-success">Verificar Entregas</a>
+                {% if mensaje %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ mensaje }}
                     </div>
-                </div>
-            </div>
+                {% endif %}
 
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h6 class="card-subtitle mb-3 text-muted">Sesión activa</h6>
-                    <a href="{% url 'logout' %}" class="btn btn-danger">Cerrar sesión</a>
-                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="cliente" class="form-label">Nombre del cliente</label>
+                        <input type="text" class="form-control" id="cliente" name="cliente" placeholder="Ej. Juan Pérez" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo de equipo</label>
+                        <input type="text" class="form-control" id="tipo" name="tipo" placeholder="Ej. Laptop, PC, Tablet" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="problema" class="form-label">Problema informado</label>
+                        <input type="text" class="form-control" id="problema" name="problema" placeholder="Ej. No enciende, pantalla rota" required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

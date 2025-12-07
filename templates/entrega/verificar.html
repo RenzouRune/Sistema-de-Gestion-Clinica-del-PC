@@ -2,54 +2,71 @@
 
 {% block content %}
 <div class="container mt-5">
-  <div class="col-md-8 mx-auto">
-    <h2 class="text-center mb-4">Verificar Entregas por Cliente</h2>
+  <div class="row">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-4">Verificar Entregas por Cliente</h2>
 
-    {% if mensaje %}
-      <div class="alert alert-info text-center" role="alert">
-        {{ mensaje }}
-      </div>
-    {% endif %}
+        {% if mensaje %}
+          <div class="alert alert-info text-center" role="alert">
+            {{ mensaje }}
+          </div>
+        {% endif %}
 
-    <form method="get" class="card p-4 shadow-sm mb-4">
-      <div class="mb-3">
-        <label for="cliente" class="form-label">Seleccione un cliente</label>
-        <select name="cliente" id="cliente" class="form-select" required>
-          <option value="" disabled selected>Seleccione un cliente</option>
-          {% for cliente in clientes %}
-            <option value="{{ cliente }}" {% if cliente == request.GET.cliente %}selected{% endif %}>{{ cliente }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="d-grid">
-        <button type="submit" class="btn btn-primary">Verificar</button>
-      </div>
-    </form>
-
-    {% if reportes_cliente %}
-      <div class="card shadow-sm p-4">
-        <h4 class="mb-3">Equipos y Estado del Cliente <strong>{{ request.GET.cliente }}</strong></h4>
-        <ul class="list-group list-group-flush">
-          {% for reporte in reportes_cliente %}
-            {% if reporte.diagnostico %}
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>Equipo: {{ reporte.diagnostico.asignacion.equipo.tipo }}, Estado: {{ reporte.estado }}</span>
-                <a href="{% url 'comprobante' %}?cliente={{ request.GET.cliente }}&equipo={{ reporte.diagnostico.asignacion.equipo.id }}" class="btn btn-sm btn-outline-primary">
-                  Ver Comprobante
-                </a>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
-
-    <div class="text-center mt-4">
-      <div class="card bg-white text-dark shadow-sm d-inline-block px-4 py-3">
-        <a href="{% url 'recepcion' %}" class="btn btn-outline-secondary">Volver</a>
+        <form method="get">
+          <div class="mb-3">
+            <label for="cliente" class="form-label">Seleccione un cliente</label>
+            <select name="cliente" id="cliente" class="form-select" required>
+              <option value="" disabled selected>Seleccione un cliente</option>
+              {% for cliente in clientes %}
+                <option value="{{ cliente }}" {% if cliente == request.GET.cliente %}selected{% endif %}>{{ cliente }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Verificar</button>
+          </div>
+        </form>
       </div>
     </div>
-    
+
+    {% if reportes_cliente %}
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title text-center mb-4">
+            Equipos y Estado del Cliente <strong>{{ request.GET.cliente }}</strong>
+          </h4>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="table-secondary">
+                <tr>
+                  <th>Equipo</th>
+                  <th>Estado</th>
+                  <th style="width: 1%;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for reporte in reportes_cliente %}
+                  {% if reporte.diagnostico %}
+                    <tr>
+                      <td>{{ reporte.diagnostico.asignacion.equipo.tipo }}</td>
+                      <td>{{ reporte.estado }}</td>
+                      <td class="text-nowrap">
+                        <a href="{% url 'comprobante' %}?cliente={{ request.GET.cliente }}&equipo={{ reporte.diagnostico.asignacion.equipo.id }}"
+                           class="btn btn-sm btn-outline-primary">
+                          Ver Comprobante
+                        </a>
+                      </td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

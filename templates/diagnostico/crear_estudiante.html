@@ -3,46 +3,27 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-8">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Crear Estudiante</h2>
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Registrar Estudiante</h2>
 
-                    {% if mensaje %}
-                        <div class="alert alert-success text-center" role="alert">
-                            {{ mensaje }}
-                        </div>
-                    {% endif %}
-
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre del Estudiante</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Crear</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h5 class="card-title text-center mb-3">¿Qué deseas hacer?</h5>
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'listar_estudiantes' %}" class="btn btn-outline-secondary">Ver Estudiantes</a>
-                        <a href="{% url 'asignar_estudiante' %}" class="btn btn-outline-warning">Asignar Estudiante</a>
-                        <a href="{% url 'evaluar' %}" class="btn btn-outline-success">Realizar Diagnóstico</a>
-                        <a href="{% url 'reporte' %}" class="btn btn-outline-info">Ir a Reporte</a>
+                {% if mensaje %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ mensaje }}
                     </div>
-                </div>
-            </div>
+                {% endif %}
 
-          
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre del Estudiante</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

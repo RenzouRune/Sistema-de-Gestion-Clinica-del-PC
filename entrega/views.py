@@ -29,7 +29,8 @@ def reporte(request):
         'asignaciones': asignaciones,
         'diagnosticos': evaluaciones,
         'reportes': entregas,
-        'mensaje': mensaje
+        'mensaje': mensaje,
+        "is_entrega": True
     })
 
 def verificar_entregas(request):
@@ -46,7 +47,8 @@ def verificar_entregas(request):
     return render(request, 'entrega/verificar.html', {
         'clientes': clientes,
         'reportes_cliente': reportes_cliente,
-        'mensaje': mensaje
+        'mensaje': mensaje,
+        "is_entrega": True
     })
 
 def comprobante(request):
@@ -74,7 +76,7 @@ def comprobante(request):
             context = {'error': 'Equipo no encontrado'}
     else:
         context = {'error': 'Parámetros inválidos'}
-    return render(request, 'entrega/comprobante.html', context)
+    return render(request, 'entrega/comprobante.html', context={**context, "is_entrega": True})
 
 def editar_reporte(request, id):
     if not request.session.get('autenticado'):
@@ -86,7 +88,7 @@ def editar_reporte(request, id):
             reporte.estado = estado
             reporte.save()
             return redirect('/entrega/reporte/?mensaje=Reporte actualizado exitosamente')
-    return render(request, 'entrega/editar_reporte.html', {'reporte': reporte})
+    return render(request, 'entrega/editar_reporte.html', {'reporte': reporte, "is_entrega": True})
 
 def delete_reporte(request, id):
     if not request.session.get('autenticado'):

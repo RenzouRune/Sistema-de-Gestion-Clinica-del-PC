@@ -5,55 +5,56 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Asignar Estudiante a un Equipo</h2>
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Asignar Estudiante a un Equipo</h2>
 
-                    {% if mensaje %}
-                        <div class="alert alert-info text-center" role="alert">
-                            <strong>{{ mensaje }}</strong>
-                        </div>
-                    {% endif %}
+                {% if mensaje %}
+                    <div class="alert alert-info text-center" role="alert">
+                        <strong>{{ mensaje }}</strong>
+                    </div>
+                {% endif %}
 
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="estudiante" class="form-label">Estudiante</label>
-                            <select name="estudiante" id="estudiante" class="form-select" required>
-                                <option value="" selected>-- Seleccionar Estudiante --</option>
-                                {% for estudiante in estudiantes %}
-                                    <option value="{{ estudiante.id }}">{{ estudiante.nombre }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="estudiante" class="form-label">Estudiante</label>
+                        <select name="estudiante" id="estudiante" class="form-select" required>
+                            <option value="" selected>-- Seleccionar Estudiante --</option>
+                            {% for estudiante in estudiantes %}
+                                <option value="{{ estudiante.id }}">{{ estudiante.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="equipo" class="form-label">Equipo</label>
-                            <select name="equipo" id="equipo" class="form-select" required>
-                                <option value="" selected>-- Seleccionar Equipo --</option>
-                                {% for equipo in equipos %}
-                                    <option value="{{ equipo.id }}">{{ equipo.tipo }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                    <div class="mb-3">
+                        <label for="equipo" class="form-label">Equipo</label>
+                        <select name="equipo" id="equipo" class="form-select" required>
+                            <option value="" selected>-- Seleccionar Equipo --</option>
+                            {% for equipo in equipos %}
+                                <option value="{{ equipo.id }}">{{ equipo.tipo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Asignar</button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Asignar</button>
+                    </div>
+                </form>
             </div>
+        </div>
 
-            <div class="mt-5">
-                <h3 class="mb-3">Asignaciones realizadas</h3>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Asignaciones realizadas</h2>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
-                        <thead class="table-light">
+                        <thead class="table-secondary">
                             <tr>
                                 <th>Estudiante</th>
                                 <th>Equipo</th>
                                 <th>Cliente</th>
+                                <th style="width: 1%;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,27 +63,17 @@
                                     <td>{{ asignacion.estudiante.nombre }}</td>
                                     <td>{{ asignacion.equipo.tipo }}</td>
                                     <td>{{ asignacion.equipo.cliente }}</td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         <a href="{% url 'editar_asignacion' asignacion.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
-                                        <a href="{% url 'delete_asignacion' asignacion.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta asignación? Esto eliminará todos los diagnósticos y reportes relacionados.')">Eliminar</a>
+                                        <a href="{% url 'delete_asignacion' asignacion.id %}" class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('¿Estás seguro de que quieres eliminar esta asignación? Esto eliminará todos los diagnósticos y reportes relacionados.')">
+                                           Eliminar
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title text-center mb-4">Acciones</h5>
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'listado_equipos' %}" class="btn btn-secondary">Listado de Equipos</a>
-                        <a href="{% url 'crear_estudiante' %}" class="btn btn-primary">Crear Estudiante</a>
-                        <a href="{% url 'evaluar' %}" class="btn btn-success">Realizar Diagnóstico</a>
-                        <a href="{% url 'recepcion' %}" class="btn btn-info">Registro de Equipo</a>
-                    </div>
                 </div>
             </div>
         </div>

@@ -29,6 +29,7 @@ def asignar(request):
         'equipos': equipos_disponibles,
         'asignaciones': asignaciones,
         'mensaje': mensaje,
+        'is_diagnostico': True
     })
 
 def evaluar(request):
@@ -49,13 +50,13 @@ def evaluar(request):
         else:
             mensaje = 'Por favor, complete todos los campos y seleccione una asignación.'
     asignaciones = Asignacion.objects.all()
-    return render(request, 'diagnostico/evaluar.html', {'mensaje': mensaje, 'asignaciones': asignaciones})
+    return render(request, 'diagnostico/evaluar.html', {'mensaje': mensaje, 'asignaciones': asignaciones, 'is_diagnostico': True})
 
 def lista_diagnosticos(request):
     if not request.session.get('autenticado'):
         return redirect('inicio')
     evaluaciones = Diagnostico.objects.all()
-    return render(request, 'diagnostico/lista_de_diagnosticos.html', {'diagnosticos': evaluaciones})
+    return render(request, 'diagnostico/lista_de_diagnosticos.html', {'diagnosticos': evaluaciones, 'is_diagnostico': True})
 
 def crear_estudiante(request):
     if not request.session.get('autenticado'):
@@ -71,13 +72,13 @@ def crear_estudiante(request):
                 mensaje = 'Estudiante creado exitosamente.'
         else:
             mensaje = 'Por favor, ingrese un nombre.'
-    return render(request, 'diagnostico/crear_estudiante.html', {'mensaje': mensaje})
+    return render(request, 'diagnostico/crear_estudiante.html', {'mensaje': mensaje, 'is_estudiantes': True})
 
 def listar_estudiantes(request):
     if not request.session.get('autenticado'):
         return redirect('/')
     estudiantes = Estudiante.objects.all()
-    return render(request, 'diagnostico/listar_estudiantes.html', {'estudiantes': estudiantes})
+    return render(request, 'diagnostico/listar_estudiantes.html', {'estudiantes': estudiantes, 'is_estudiantes': True})
 
 def editar_estudiante(request, id):
     if not request.session.get('autenticado'):
@@ -87,7 +88,7 @@ def editar_estudiante(request, id):
         estudiante.nombre = request.POST.get('nombre')
         estudiante.save()
         return redirect('/diagnostico/diagnostico/listar_estudiantes/?mensaje=Estudiante actualizado exitosamente')
-    return render(request, 'diagnostico/editar_estudiante.html', {'estudiante': estudiante})
+    return render(request, 'diagnostico/editar_estudiante.html', {'estudiante': estudiante, 'is_estudiantes': True})
 
 def editar_asignacion(request, id):
     if not request.session.get('autenticado'):
@@ -103,7 +104,12 @@ def editar_asignacion(request, id):
             asignacion.equipo = Equipo.objects.get(id=equipo_id)
             asignacion.save()
             return redirect('/diagnostico/diagnostico/asignar/?mensaje=Asignación actualizada exitosamente')
-    return render(request, 'diagnostico/editar_asignacion.html', {'asignacion': asignacion, 'estudiantes': estudiantes, 'equipos': equipos})
+    return render(request, 'diagnostico/editar_asignacion.html', {
+        'asignacion': asignacion, 
+        'estudiantes': estudiantes, 
+        'equipos': equipos, 
+        'is_diagnostico': True
+    })
 
 def editar_diagnostico(request, id):
     if not request.session.get('autenticado'):
@@ -114,7 +120,7 @@ def editar_diagnostico(request, id):
         diagnostico.solucion = request.POST.get('solucion')
         diagnostico.save()
         return redirect('/diagnostico/diagnostico/lista/?mensaje=Diagnóstico actualizado exitosamente')
-    return render(request, 'diagnostico/editar_diagnostico.html', {'diagnostico': diagnostico})
+    return render(request, 'diagnostico/editar_diagnostico.html', {'diagnostico': diagnostico, 'is_diagnostico': True})
 
 def delete_estudiante(request, id):
     if not request.session.get('autenticado'):
