@@ -3,52 +3,49 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-9">
-            <h2 class="text-center mb-4">Listado de equipos recibidos</h2>
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Listado de equipos recibidos</h2>
 
-            {% if mensaje %}
-                <div class="alert alert-success text-center" role="alert">
-                    {{ mensaje }}
-                </div>
-            {% endif %}
+                {% if mensaje %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ mensaje }}
+                    </div>
+                {% endif %}
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th scope="col">Cliente</th>
-                            <th scope="col">Tipo</th>
-                            <th scope="col">Detalle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for equipo in equipos %}
-                        <tr>
-                            <td>{{ equipo.cliente }}</td>
-                            <td>{{ equipo.tipo }}</td>
-                            <td>
-                                <a href="{% url 'detalle_equipo' equipo.cliente %}" class="btn btn-sm btn-outline-primary">
-                                    Ver detalle
-                                </a>
-                                <a href="{% url 'editar_equipo' equipo.id %}" class="btn btn-sm btn-outline-secondary">
-                                    Editar
-                                </a>
-                                <a href="{% url 'delete_equipo' equipo.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este equipo? Esto eliminará todas las asignaciones, diagnósticos y reportes relacionados.')">
-                                    Eliminar
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="sidebar bg-light p-3 rounded shadow-sm">
-                <h5 class="mb-3 text-dark">Acciones</h5>
-                <div class="d-grid gap-2">
-                    <a href="{% url 'recepcion' %}" class="btn btn-primary">Registro de Equipos</a>
-                    <a href="{% url 'asignar_estudiante' %}" class="btn btn-success">Asignar Estudiante</a>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th scope="col">Cliente</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col" style="width: 1%;">Detalle</th>
+                                <th scope="col" style="width: 1%;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for equipo in equipos %}
+                            <tr>
+                                <td>{{ equipo.cliente }}</td>
+                                <td>{{ equipo.tipo }}</td>
+                                <td class="text-nowrap">
+                                    <a href="{% url 'detalle_equipo' equipo.cliente %}" class="btn btn-sm btn-outline-primary">
+                                        Ver detalle
+                                    </a>
+                                </td>
+                                <td class="text-nowrap">
+                                    <a href="{% url 'editar_equipo' equipo.id %}" class="btn btn-sm btn-outline-secondary">
+                                        Editar
+                                    </a>
+                                    <a href="{% url 'delete_equipo' equipo.id %}" class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('¿Estás seguro de que quieres eliminar este equipo? Esto eliminará todas las asignaciones, diagnósticos y reportes relacionados.')">
+                                        Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

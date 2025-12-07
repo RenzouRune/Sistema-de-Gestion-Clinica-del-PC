@@ -17,10 +17,10 @@
     ></script>
     {% block extra_head %}{% endblock extra_head %}
   </head>
-  <body class="bg-primary text-white d-flex">
+  <body class="text-dark d-flex" style="background-color: #c9c9c9ff;">
+
     {% block left_navbar %}
-  
-    <nav class="bg-dark text-white" style="width: 250px; height: 100vh; position: fixed; left: 0; top: 0; overflow-y: auto;">
+    <nav class="text-white" style="background-color: #000000ff; width: 250px; height: 100vh; position: fixed; left: 0; top: 0; overflow-y: auto;">
       <div class="p-3">
         <h5>Clinica PC</h5>
         <ul class="nav flex-column">
@@ -28,13 +28,16 @@
             <a class="nav-link text-white" href="{% url 'recepcion' %}">Recepción</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'lista_diagnosticos' %}">Diagnóstico</a>
+            <a class="nav-link text-white" href="{% url 'evaluar' %}">Diagnóstico</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'reporte' %}">Entrega</a>
+            <a class="nav-link text-white" href="{% url 'reporte' %}">Reporte</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link text-white" href="{% url 'logout' %}">Cerrar sesión</a>
+            <a class="nav-link text-white" href="{% url 'crear_estudiante' %}">Estudiantes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'logout' %}">Cerrar sesión</a>
           </li>
         </ul>
       </div>
@@ -42,11 +45,12 @@
     {% endblock left_navbar %}
 
     {% block right_navbar %}
-    <nav class="bg-secondary text-white" style="width: 250px; height: 100vh; position: fixed; right: 0; top: 0; overflow-y: auto;">
+    <nav class="text-white" style="background-color: #5f5f5fff; width: 250px; height: 100vh; position: fixed; right: 0; top: 0; overflow-y: auto;">
       <div class="p-3">
         <h5>Opciones</h5>
+
         {% if is_recepcion %}
-        <ul class="nav flex-column">
+        <ul class="nav flex-column mb-3">
           <li class="nav-item">
             <a class="nav-link text-white" href="{% url 'recepcion' %}">Registrar Equipo</a>
           </li>
@@ -54,30 +58,87 @@
             <a class="nav-link text-white" href="{% url 'listado_equipos' %}">Listado de Equipos</a>
           </li>
         </ul>
-        {% endif %}
-        {% if is_entrega %}
-        <ul class="nav flex-column">
+
+        <h5>Acciones Relacionadas</h5>
+
+        <ul class="nav flex-column mb-3">
           <li class="nav-item">
-            <a class="nav-link text-white" href="">Perfil</a>
+            <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
+          </li>
+        </ul>
+        {% endif %} 
+
+        {% if is_diagnostico %}
+         <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="">Configuración</a>
+            <a class="nav-link text-white" href="{% url 'evaluar' %}">Registrar Diagnóstico</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="">Ayuda</a>
+            <a class="nav-link text-white" href="{% url 'lista_diagnosticos' %}">Listado de Diagnósticos</a>
+          </li>
+         </ul>
+
+         <h5>Acciones Relacionadas</h5>
+
+        <ul class="nav flex-column mb-3">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'crear_estudiante' %}">Registrar Estudiante</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'reporte' %}">Realizar Reporte</a>
           </li>
         </ul>
         {% endif %}
-        {% if is_diagnostico %}
+
+        {% if is_entrega %}
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link text-white" href="">Perfil</a>
+            <a class="nav-link text-white" href="{% url 'reporte' %}">Reporte</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="">Configuración</a>
+            <a class="nav-link text-white" href="{% url 'verificar_entregas' %}">Verificar Entregas</a>
+          </li>
+        </ul>
+
+        <h5>Acciones Relacionadas</h5>
+
+        <ul class="nav flex-column mb-3">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="">Ayuda</a>
+            <a class="nav-link text-white" href=""></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href=""></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href=""></a>
+          </li>
+        </ul>
+        {% endif %}
+
+        {% if is_estudiantes %}
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'crear_estudiante' %}">Registrar Estudiante</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'listar_estudiantes' %}">Listado de Estudiantes</a>
+          </li>
+        </ul>
+
+        <h5>Acciones Relacionadas</h5>
+
+        <ul class="nav flex-column mb-3">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'evaluar' %}">Realizar Diagnóstico</a>
           </li>
         </ul>
         {% endif %}

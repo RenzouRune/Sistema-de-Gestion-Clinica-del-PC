@@ -17,13 +17,13 @@ def listado_equipos(request):
         return redirect('/')
     equipos = Equipo.objects.all()
     mensaje = request.GET.get('mensaje')
-    return render(request, 'recepcion/listado.html', {'equipos': equipos, 'mensaje': mensaje},{ "is_recepcion" :True })
+    return render(request, 'recepcion/listado.html', {'equipos': equipos, 'mensaje': mensaje, "is_recepcion" :True })
 
 def detalle_equipo(request, nombre):
     if not request.session.get('autenticado'):
         return redirect('/')
     equipo = Equipo.objects.filter(cliente=nombre).first()
-    return render(request, 'recepcion/detalle.html', {'equipo': equipo},{ "is_recepcion" :True })
+    return render(request, 'recepcion/detalle.html', {'equipo': equipo, "is_recepcion" :True })
 
 def editar_equipo(request, id):
     if not request.session.get('autenticado'):
@@ -35,7 +35,7 @@ def editar_equipo(request, id):
         equipo.problema = request.POST.get('problema')
         equipo.save()
         return redirect('/recepcion/listado/?mensaje=Equipo actualizado exitosamente')
-    return render(request, 'recepcion/editar_equipo.html', {'equipo': equipo})
+    return render(request, 'recepcion/editar_equipo.html', {'equipo': equipo, "is_recepcion" :True })
 
 def delete_equipo(request, id):
     if not request.session.get('autenticado'):
