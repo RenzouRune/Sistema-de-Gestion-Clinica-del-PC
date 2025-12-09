@@ -7,151 +7,174 @@
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
-      crossorigin="anonymous"
     />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-      crossorigin="anonymous"
     ></script>
+    <style>
+      body {
+        min-height: 100vh;
+        background-color: #c9c9c9ff;
+      }
+      main {
+        flex-grow: 1;
+      }
+      aside.right-navbar {
+        width: 250px;
+        background-color: #5f5f5fff;
+        min-height: 100%;
+      }
+      /* Navbar superior ocupa todo el ancho y permite scroll horizontal */
+      aside.top-navbar nav {
+        width: 100%;
+        overflow-x: auto;   /* activa scroll horizontal si es necesario */
+        white-space: nowrap; /* evita que los elementos se rompan en varias líneas */
+      }
+      aside.top-navbar nav ul.nav {
+        flex-wrap: nowrap;  /* mantiene los elementos en una sola fila */
+      }
+      aside.top-navbar nav::-webkit-scrollbar {
+        height: 8px; /* tamaño de la barra inferior */
+      }
+      aside.top-navbar nav::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+      aside.top-navbar nav::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    </style>
     {% block extra_head %}{% endblock extra_head %}
   </head>
-  <body class="text-dark d-flex" style="background-color: #c9c9c9ff;">
+  <body class="text-dark d-flex flex-column">
 
+    <!-- Navbar superior -->
     {% block left_navbar %}
-    <nav class="text-white" style="background-color: #000000ff; width: 250px; height: 100vh; position: fixed; left: 0; top: 0; overflow-y: auto;">
-      <div class="p-3">
-        <h5>Clinica PC</h5>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'recepcion' %}">Recepción</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'evaluar' %}">Diagnóstico</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'reporte' %}">Reporte</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'crear_estudiante' %}">Estudiantes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'logout' %}">Cerrar sesión</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <aside class="top_navbar">
+      <nav class="text-white w-100" style="background-color: #000000ff;" role="navigation" aria-label="Navegación principal">
+        <div class="p-3 d-flex align-items-center justify-content-between" style="width: 100%;">
+          <h5 class="mb-0">Clinica PC</h5>
+          <ul class="nav mx-3">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'recepcion' %}">Recepción</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'evaluar' %}">Diagnóstico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'reporte' %}">Reporte</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'crear_estudiante' %}">Estudiantes</a>
+            </li>
+          </ul>
+          <a class="nav-link text-white" href="{% url 'logout' %}">Cerrar sesión</a>
+        </div>
+      </nav>
+    </aside>
     {% endblock left_navbar %}
 
-    {% block right_navbar %}
-    <nav class="text-white" style="background-color: #5f5f5fff; width: 250px; height: 100vh; position: fixed; right: 0; top: 0; overflow-y: auto;">
-      <div class="p-3">
-        <h5>Opciones</h5>
+    <!-- Contenedor principal: contenido + navbar derecho -->
+    <div class="d-flex flex-grow-1">
 
-        {% if is_recepcion %}
-        <ul class="nav flex-column mb-3">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'recepcion' %}">Registrar Equipo</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'listado_equipos' %}">Listado de Equipos</a>
-          </li>
-        </ul>
+      <!-- Contenido central -->
+      <main>
+        <div class="container mt-4">
+          {% block content %}
+          {% endblock content %}
+        </div>
+      </main>
 
-        <h5>Acciones Relacionadas</h5>
+      <!-- Navbar derecho como sidebar -->
+      {% block right_navbar %}
+      <aside class="right-navbar text-white">
+        <nav class="p-3" role="navigation" aria-label="Opciones">
+          <h5>Opciones</h5>
+          {% if is_recepcion %}
+          <ul class="nav mb-3">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'recepcion' %}">Registrar Equipo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'listado_equipos' %}">Listado de Equipos</a>
+            </li>
+          </ul>
+          <h5>Acciones Relacionadas</h5>
+          <ul class="nav mb-3">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'evaluar' %}">Registrar Diagnóstico</a>
+            </li>
+          </ul>
+          {% endif %} 
+          {% if is_diagnostico %}
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'evaluar' %}">Registrar Diagnóstico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'lista_diagnosticos' %}">Listado de Diagnósticos</a>
+            </li>
+          </ul>
+          <h5>Acciones Relacionadas</h5>
+          <ul class="nav mb-3">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'crear_estudiante' %}">Registrar Estudiante</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'reporte' %}">Realizar Reporte</a>
+            </li>
+          </ul>
+          {% endif %}
+          {% if is_entrega %}
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'reporte' %}">Reporte</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'verificar_entregas' %}">Verificar Entregas</a>
+            </li>
+          </ul>
+          <h5>Acciones Relacionadas</h5>
+          <ul class="nav mb-3">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'evaluar' %}">Realizar Diagnóstico</a>
+            </li>
+          </ul>
+          {% endif %}
+          {% if is_estudiantes %}
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'crear_estudiante' %}">Registrar Estudiante</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'listar_estudiantes' %}">Listado de Estudiantes</a>
+            </li>
+          </ul>
+          <h5>Acciones Relacionadas</h5>
+          <ul class="nav mb-3">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'evaluar' %}">Realizar Diagnóstico</a>
+            </li>
+          </ul>
+          {% endif %}
+        </nav>
+      </aside>
+      {% endblock right_navbar %}
 
-        <ul class="nav flex-column mb-3">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
-          </li>
-        </ul>
-        {% endif %} 
-
-        {% if is_diagnostico %}
-         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'evaluar' %}">Registrar Diagnóstico</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'lista_diagnosticos' %}">Listado de Diagnósticos</a>
-          </li>
-         </ul>
-
-         <h5>Acciones Relacionadas</h5>
-
-        <ul class="nav flex-column mb-3">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'crear_estudiante' %}">Registrar Estudiante</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'reporte' %}">Realizar Reporte</a>
-          </li>
-        </ul>
-        {% endif %}
-
-        {% if is_entrega %}
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'reporte' %}">Reporte</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'verificar_entregas' %}">Verificar Entregas</a>
-          </li>
-        </ul>
-
-        <h5>Acciones Relacionadas</h5>
-
-        <ul class="nav flex-column mb-3">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href=""></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href=""></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href=""></a>
-          </li>
-        </ul>
-        {% endif %}
-
-        {% if is_estudiantes %}
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'crear_estudiante' %}">Registrar Estudiante</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'listar_estudiantes' %}">Listado de Estudiantes</a>
-          </li>
-        </ul>
-
-        <h5>Acciones Relacionadas</h5>
-
-        <ul class="nav flex-column mb-3">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'asignar_estudiante' %}">Asignar Estudiante</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'evaluar' %}">Realizar Diagnóstico</a>
-          </li>
-        </ul>
-        {% endif %}
-      </div>
-    </nav>
-    {% endblock right_navbar %}
-
-    <!-- Contenido central -->
-    <div class="flex-grow-1" style="margin-left: 250px; margin-right: 250px;">
-      <div class="container mt-4">
-        {% block content %}
-        {% endblock content %}
-      </div>
     </div>
   </body>
 </html>
+
+
